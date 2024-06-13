@@ -16,3 +16,13 @@ sudo ln -s /var/lib/snapd/snap /snap
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
 yay -Syu --noconfirm 1password
 yay -Syu --noconfirm 1password-cli
+
+flatpak install flathub com.brave.Browser -y
+
+sudo pacman -S --noconfirm code 
+sudo pacman -S --noconfirm vlc
+flatpak install flathub tv.plex.PlexDesktop -y
+
+yay -Syu --noconfirm ttf-ms-win10-auto
+yay -Syu --noconfirm ttf-ms-win11-auto
+
