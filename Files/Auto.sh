@@ -2,7 +2,6 @@
 
 # Install Programs using pacman
 pacmanId=(
-    "git"
     "glib2-devel"
     "vlc"
 )
