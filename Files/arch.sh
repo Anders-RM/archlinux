@@ -1,8 +1,6 @@
 #! /bin/bash
 sudo pacman -S --noconfirm glib2-devel
 
-mkdir -p ~/temp
-cd ~/temp
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
