@@ -79,7 +79,7 @@ for SId in "${snapId[@]}"; do
     sudo snap install --stable --classic  "$SID"
 done
 
-1password &
+(1password &)
 wait $!
 
 killall 1password
