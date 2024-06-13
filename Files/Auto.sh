@@ -15,7 +15,6 @@ yayId=(
 # Install Programs using faltpak
 flatpakId=(
     "com.visualstudio.code"
-    "tv.plex.PlexDesktop"
     "com.brave.Browser"
 )
 # Install Programs using snap
@@ -26,28 +25,6 @@ snapId=(
 # Set the region to English Denmark
 export LC_ALL="en_DK.UTF-8"
 sudo localectl set-locale LANG=en_DK.UTF-8
-
-# Function to prompt choice
-prompt_choice() {
-    title="$1"
-    prompt="$2"
-    choices=("${!3}")
-    default_choice=$4
-    echo "$prompt"
-    select choice in "${choices[@]}"; do
-        REPLY="${REPLY:-$default_choice}"
-        if [[ -n $choice ]]; then
-            break
-        else
-            echo "Invalid choice."
-        fi
-    done
-    echo "$REPLY"
-}
-
-# Prompt for choices
-Backup=$(prompt_choice "Set up backup task schedule" "Do you want to activate backup?" "Yes No" 1)
-Update=$(prompt_choice "Windows Update" "Do you want to install system updates?" "Yes No")
 
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
 
@@ -91,7 +68,5 @@ kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.br
 # Set power button behavior
 kwriteconfig5 --file powerdevilrc --group "ButtonEventsHandling" --key "PowerButtonAction" "nothing"
 kwriteconfig5 --file powerdevilrc --group "ButtonEventsHandling" --key "SleepButtonAction" "nothing"
-
-
 
 sudo reboot
