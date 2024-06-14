@@ -16,7 +16,7 @@ pacmanId=(
     "glib2-devel"
     "vlc"
 )
-
+# Install Programs using yay/aur
 yayId=(
     "pamac-all"
     "1password"
