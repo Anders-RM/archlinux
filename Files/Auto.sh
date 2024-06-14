@@ -82,10 +82,13 @@ for SId in "${snapId[@]}"; do
 done
 
 log "Starting 1Password"
-(1password &) | tee -a "$LOG_FILE"
+#(1password &>/dev/null &) | tee -a "$LOG_FILE"
+nohup 1password > 1password.log 2>&1 &
 wait $!
 
-#log "Killing 1Password"
+
+
+log "Killing 1Password"
 #killall 1password | tee -a "$LOG_FILE"
 
 log "Applying KDE Plasma settings"
