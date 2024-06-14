@@ -62,11 +62,6 @@ wait $!
 killall 1password
 
 # Customize KDE Plasma settings
-kwriteconfig5 --file kdeglobals --group General --key ColorScheme "BreezeDark"
-kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
-
-# Set power button behavior
-kwriteconfig5 --file powerdevilrc --group "ButtonEventsHandling" --key "PowerButtonAction" "nothing"
-kwriteconfig5 --file powerdevilrc --group "ButtonEventsHandling" --key "SleepButtonAction" "nothing"
+lookandfeeltool --apply org.kde.breezedark.desktop
 
 sudo reboot
