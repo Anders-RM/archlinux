@@ -85,11 +85,11 @@ log "Starting 1Password"
 (1password &) | tee -a "$LOG_FILE"
 wait $!
 
-log "Killing 1Password"
-killall 1password | tee -a "$LOG_FILE"
+#log "Killing 1Password"
+#killall 1password | tee -a "$LOG_FILE"
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
 log "Rebooting system"
-sudo reboot | tee -a "$LOG_FILE"
+#sudo reboot | tee -a "$LOG_FILE"
