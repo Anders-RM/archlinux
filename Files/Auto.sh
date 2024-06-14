@@ -81,15 +81,17 @@ for SId in "${snapId[@]}"; do
     fi
 done
 
-log "Starting 1Password"
+echo "setup 1Password enable SSH agent under the developer settings."
+
+read -p "Press any key to continue. . ."
+
+#log "Starting 1Password"
 #(1password &>/dev/null &) | tee -a "$LOG_FILE"
-nohup 1password > 1password.log 2>&1 &
-wait $!
-
-
+#nohup 1password > 1password.log 2>&1 &
+#wait $!
 
 log "Killing 1Password"
-#killall 1password | tee -a "$LOG_FILE"
+killall 1password | tee -a "$LOG_FILE"
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
