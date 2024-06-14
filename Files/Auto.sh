@@ -60,6 +60,8 @@ rm -rfd yay
 for YId in "${yayId[@]}"; do
     log "Installing $YId with yay"
     yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
+    log "Sleeping for 10 seconds"
+    sleep 10
 done
 
 log "Linking snapd"
