@@ -1,5 +1,16 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+LOG_FILE="$SCRIPT_DIR/package_install.log"
+
+# Ensure the log file exists
+mkdir -p "$(dirname "$LOG_FILE")"
+touch "$LOG_FILE"
+
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+}
+
 # Install Programs using pacman
 pacmanId=(
     "glib2-devel"
@@ -12,56 +23,71 @@ yayId=(
     "1password-cli"
     "ttf-ms-win11-auto"
 )
-# Install Programs using faltpak
+
+# Install Programs using flatpak
 flatpakId=(
     "com.visualstudio.code"
     "com.brave.Browser"
 )
+
 # Install Programs using snap
 snapId=(
     ""
 )
 
-# Set the region to English Denmark
+log "Setting locale to English Denmark"
 export LC_ALL="en_DK.UTF-8"
-sudo localectl set-locale LANG=en_DK.UTF-8
+sudo localectl set-locale LANG=en_DK.UTF-8 | tee -a "$LOG_FILE"
 
-curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
+log "Importing 1Password GPG key"
+curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import | tee -a "$LOG_FILE"
 
 # Install packages from pacman
 for PId in "${pacmanId[@]}"; do
-    sudo pacman -S --noconfirm "$PId"
+    log "Installing $PId with pacman"
+    sudo pacman -S --noconfirm "$PId" | tee -a "$LOG_FILE"
 done
 
-git clone https://aur.archlinux.org/yay.git
+log "Cloning yay repository"
+git clone https://aur.archlinux.org/yay.git | tee -a "$LOG_FILE"
 cd yay
-makepkg -si --noconfirm
+log "Building and installing yay"
+makepkg -si --noconfirm | tee -a "$LOG_FILE"
 cd -
 rm -rfd yay
 
 # Install packages for yay
 for YId in "${yayId[@]}"; do
-    yay -Syu --noconfirm "$YId"
+    log "Installing $YId with yay"
+    yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
 done
 
-sudo ln -s /var/lib/snapd/snap /snap
+log "Linking snapd"
+sudo ln -s /var/lib/snapd/snap /snap | tee -a "$LOG_FILE"
 
 # Install packages for flatpak
 for FId in "${flatpakId[@]}"; do
-    flatpak install flathub -y "$FId"
+    log "Installing $FId with flatpak"
+    flatpak install flathub -y "$FId" | tee -a "$LOG_FILE"
 done
 
 # Install packages from snap
 for SId in "${snapId[@]}"; do
-    sudo snap install --stable --classic  "$SID"
+    if [ -n "$SId" ]; then
+        log "Installing $SId with snap"
+        sudo snap install --stable --classic "$SId" | tee -a "$LOG_FILE"
+    fi
 done
 
-(1password &)
+log "Starting 1Password"
+(1password &) | tee -a "$LOG_FILE"
 wait $!
 
-killall 1password
+log "Killing 1Password"
+killall 1password | tee -a "$LOG_FILE"
 
-# Customize KDE Plasma settings
-lookandfeeltool --apply org.kde.breezedark.desktop
+log "Applying KDE Plasma settings"
+lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
-sudo reboot
+log "Rebooting system"
+sudo reboot | tee -a "$LOG_FILE"
