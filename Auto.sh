@@ -16,13 +16,14 @@ pacmanId=(
     "vlc"
     "zed"
     "flatpak"
+    "python-beautifulsoup4"
+    "python-lxml"
 )
 # Install Programs using yay/aur
 yayId=(
     "snapd"
     "bauh"
     "1password"
-    "1password-cli"
     "ttf-ms-win11-auto"
 )
 
@@ -85,7 +86,7 @@ for SId in "${snapId[@]}"; do
     fi
 done
 
-curl -fsSL https://christitus.com/linux | sh
+#curl -fsSL https://christitus.com/linux | sh
 
 echo "setup 1Password enable SSH agent under the developer settings."
 
