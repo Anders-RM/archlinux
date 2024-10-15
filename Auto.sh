@@ -98,4 +98,4 @@ log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
 log "Rebooting system"
-#sudo reboot | tee -a "$LOG_FILE"
+sudo reboot | tee -a "$LOG_FILE"
