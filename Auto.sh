@@ -13,12 +13,14 @@ log() {
 
 # Install Programs using pacman
 pacmanId=(
-    "glib2-devel"
     "vlc"
+    "zed"
+    "flatpak"
 )
 # Install Programs using yay/aur
 yayId=(
-    "pamac-all"
+    "snapd"
+    "bauh"
     "1password"
     "1password-cli"
     "ttf-ms-win11-auto"
@@ -26,7 +28,6 @@ yayId=(
 
 # Install Programs using flatpak
 flatpakId=(
-    "com.visualstudio.code"
     "com.brave.Browser"
 )
 
@@ -64,6 +65,9 @@ for YId in "${yayId[@]}"; do
     sleep 10
 done
 
+log "Enable Snap"
+sudo systemctl enable --now snapd.socket
+sudo systemctl enable --now snapd.apparmor.service
 log "Linking snapd"
 sudo ln -s /var/lib/snapd/snap /snap | tee -a "$LOG_FILE"
 
@@ -80,6 +84,8 @@ for SId in "${snapId[@]}"; do
         sudo snap install --stable --classic "$SId" | tee -a "$LOG_FILE"
     fi
 done
+
+curl -fsSL https://christitus.com/linux | sh
 
 echo "setup 1Password enable SSH agent under the developer settings."
 
