@@ -22,6 +22,15 @@ pacmanId=(
     "python-lxml"
 )
 
+# Repositories to clone and install
+cloneRepos=(
+    "https://aur.archlinux.org/yay.git"
+)
+
+repoDirs=(
+    "yay"
+)
+
 # Install Programs using yay/aur
 yayId=(
     "snapd"
@@ -37,15 +46,6 @@ flatpakId=(
 # Install Programs using snap
 snapId=(
     ""
-)
-
-# Repositories to clone and install
-cloneRepos=(
-    "https://aur.archlinux.org/yay.git"
-)
-
-repoDirs=(
-    "yay"
 )
 
 # Set system locale
