@@ -169,7 +169,7 @@ else
     mkdir -p "$HOME/.config"
     echo "[General]" > "$CONFIG_FILE"
     echo "ConfirmLogout=false" >> "$CONFIG_FILE"
-    echo "Configuration file created and shutdown confirmation disabled."
+    log "Configuration file created and shutdown confirmation disabled."
 fi
 
 # Create the update script
