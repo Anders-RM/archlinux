@@ -63,7 +63,7 @@ rm -rfd yay
 
 log "Cloning ttf-ms-win11-auto repository"
 git clone https://aur.archlinux.org/ttf-ms-win11-auto.git | tee -a "$LOG_FILE"
-cd yay
+cd ttf-ms-win11-auto
 log "Building and installing ttf-ms-win11-auto"
 makepkg -si --noconfirm | tee -a "$LOG_FILE"
 cd -
@@ -127,11 +127,11 @@ MinimumUid=1000
 EOL
 
 # Display a message
-echo "Configuration file created at $FILE"
+echo "Configuration file created at $sddmFile"
 
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
 log "Rebooting system"
-#sudo reboot | tee -a "$LOG_FILE"
+sudo reboot | tee -a "$LOG_FILE"
