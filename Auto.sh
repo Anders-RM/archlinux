@@ -114,7 +114,7 @@ for SId in "${snapId[@]}"; do
 done
 
 # Final setup for 1Password
-echo "Setup 1Password: Enable SSH agent under the developer settings."
+log "Setup 1Password: Enable SSH agent under the developer settings."
 read -p "Press any key to continue. . ."
 
 log "Killing 1Password"
@@ -142,7 +142,7 @@ MinimumUid=1000
 EOLSD
 
 # Display message for configuration file creation
-echo "Configuration file created at kde_settings.conf"
+log "Configuration file created at kde_settings.conf"
 
 # Apply KDE Plasma settings
 log "Applying KDE Plasma settings"
@@ -186,7 +186,7 @@ log "All updates completed successfully."
 exit 0
 EOLU
 
-echo "Configuration file created at update_script.sh"
+log "Configuration file created at update_script.sh"
 sudo chmod +x /usr/local/bin/update_script.sh
 
 # Create systemd service for the update script
@@ -206,7 +206,7 @@ TimeoutStopSec=1800
 WantedBy=halt.target reboot.target shutdown.target
 EOLS
 
-echo "Configuration file created at update-script.service"
+log "Configuration file created at update-script.service"
 
 # Reload systemd and enable the service
 sudo systemctl daemon-reload
