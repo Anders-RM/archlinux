@@ -20,6 +20,10 @@ pacmanId=(
     "python-lxml"
     "p7zip"
     "httpdirfs"
+    "meson"
+    "help2man"
+    "doxygen"
+    "graphviz"
 )
 # Install Programs using yay/aur
 yayId=(
@@ -60,6 +64,11 @@ sudo localectl set-locale LANG=en_DK.UTF-8 | tee -a "$LOG_FILE"
 
 log "Importing 1Password GPG key"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import | tee -a "$LOG_FILE"
+
+# Update pacman packages
+log "Starting pacman update..."
+sudo pacman -Syu --noconfirm | tee -a $LOGFILE
+log "Pacman update completed."
 
 # Install packages from pacman
 for PId in "${pacmanId[@]}"; do
@@ -144,6 +153,27 @@ echo "Configuration file created at $sddmFile"
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
+
+# Update pacman packages
+log "Starting pacman update..."
+sudo pacman -Syu --noconfirm | tee -a $LOGFILE
+log "Pacman update completed."
+
+# Update AUR packages
+log "Starting yay update..."
+yay -Syu --noconfirm | tee -a $LOGFILE
+log "Yay update completed."
+
+# Update Flatpak packages
+log "Starting Flatpak update..."
+flatpak update -y | tee -a $LOGFILE
+log "Flatpak update completed."
+
+# Update Snap packages
+log "Starting Snap update..."
+sudo snap refresh | tee -a $LOGFILE
+log "Snap update completed."
+
 
 log "Rebooting system"
 sudo reboot | tee -a "$LOG_FILE"
