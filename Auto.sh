@@ -24,7 +24,6 @@ yayId=(
     "snapd"
     "bauh"
     "1password"
-    "ttf-ms-win11-auto"
 )
 
 # Install Programs using flatpak
@@ -53,6 +52,7 @@ for PId in "${pacmanId[@]}"; do
     sudo pacman -S --noconfirm "$PId" | tee -a "$LOG_FILE"
 done
 
+
 log "Cloning yay repository"
 git clone https://aur.archlinux.org/yay.git | tee -a "$LOG_FILE"
 cd yay
@@ -60,6 +60,14 @@ log "Building and installing yay"
 makepkg -si --noconfirm | tee -a "$LOG_FILE"
 cd -
 rm -rfd yay
+
+log "Cloning ttf-ms-win11-auto repository"
+git clone https://aur.archlinux.org/ttf-ms-win11-auto.git | tee -a "$LOG_FILE"
+cd yay
+log "Building and installing ttf-ms-win11-auto"
+makepkg -si --noconfirm | tee -a "$LOG_FILE"
+cd -
+rm -rfd ttf-ms-win11-auto
 
 # Install packages for yay
 for YId in "${yayId[@]}"; do
