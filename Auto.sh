@@ -160,16 +160,16 @@ if [ -f "$CONFIG_FILE" ]; then
         sed -i 's/^ConfirmLogout=.*/ConfirmLogout=false/' "$CONFIG_FILE"
     else
         # If it doesn't exist, add it to the file
-        log "ConfirmLogout=false" >> "$CONFIG_FILE"
+        echo "ConfirmLogout=false" >> "$CONFIG_FILE"
     fi
     log "Shutdown confirmation disabled."
 else
     log "Configuration file not found. Creating it..."
     # Create the config file and set ConfirmLogout to false
     mkdir -p "$HOME/.config"
-    log "[General]" > "$CONFIG_FILE"
-    log "ConfirmLogout=false" >> "$CONFIG_FILE"
-    log "Configuration file created and shutdown confirmation disabled."
+    echo "[General]" > "$CONFIG_FILE"
+    echo "ConfirmLogout=false" >> "$CONFIG_FILE"
+    echo "Configuration file created and shutdown confirmation disabled."
 fi
 
 # Create the update script
