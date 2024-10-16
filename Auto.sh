@@ -18,9 +18,6 @@ pacmanId=(
     "flatpak"
     "python-beautifulsoup4"
     "python-lxml"
-    "qt5-quickcontrols"
-    "qt5-quickcontrols2"
-    "qt5-graphicaleffects"
 )
 # Install Programs using yay/aur
 yayId=(
@@ -92,7 +89,6 @@ for SId in "${snapId[@]}"; do
     fi
 done
 
-#curl -fsSL https://christitus.com/linux | sh
 
 echo "setup 1Password enable SSH agent under the developer settings."
 
@@ -131,4 +127,4 @@ log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
 log "Rebooting system"
-sudo reboot | tee -a "$LOG_FILE"
+#sudo reboot | tee -a "$LOG_FILE"
