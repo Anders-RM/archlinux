@@ -100,8 +100,7 @@ killall 1password | tee -a "$LOG_FILE"
 # Create the directory if it doesn't exist
 sudo mkdir -p "$sddmir"
 
-# Write the content to the file
-sudo cat <<EOL > "$sddmFile"
+sudo tee "$sddmFile" > /dev/null <<EOL
 [Autologin]
 Relogin=false
 Session=
