@@ -18,6 +18,9 @@ pacmanId=(
     "flatpak"
     "python-beautifulsoup4"
     "python-lxml"
+    "qt5-quickcontrols"
+    "qt5-quickcontrols2"
+    "qt5-graphicaleffects"
 )
 # Install Programs using yay/aur
 yayId=(
@@ -36,6 +39,9 @@ flatpakId=(
 snapId=(
     ""
 )
+
+sddmir="/etc/sddm.conf.d"
+sddmFile="$sddmir/kde_settings.conf"
 
 log "Setting locale to English Denmark"
 export LC_ALL="en_DK.UTF-8"
@@ -94,6 +100,32 @@ read -p "Press any key to continue. . ."
 
 log "Killing 1Password"
 killall 1password | tee -a "$LOG_FILE"
+
+# Create the directory if it doesn't exist
+sudo mkdir -p "$sddmir"
+
+# Write the content to the file
+sudo cat <<EOL > "$sddmFile"
+[Autologin]
+Relogin=false
+Session=
+User=
+
+[General]
+HaltCommand=/usr/bin/systemctl poweroff
+RebootCommand=/usr/bin/systemctl reboot
+
+[Theme]
+Current=breeze
+
+[Users]
+MaximumUid=60513
+MinimumUid=1000
+EOL
+
+# Display a message
+echo "Configuration file created at $FILE"
+
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
