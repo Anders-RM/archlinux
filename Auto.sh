@@ -148,6 +148,31 @@ log "Configuration file created at kde_settings.conf"
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
+
+# Path to the ksmserverrc configuration file
+CONFIG_FILE="$HOME/.config/ksmserverrc"
+
+# Check if the file exists
+if [ -f "$CONFIG_FILE" ]; then
+    # Update or add the ConfirmLogout setting
+    if grep -q '^ConfirmLogout=' "$CONFIG_FILE"; then
+        # If it exists, change its value to false
+        sed -i 's/^ConfirmLogout=.*/ConfirmLogout=false/' "$CONFIG_FILE"
+    else
+        # If it doesn't exist, add it to the file
+        log "ConfirmLogout=false" >> "$CONFIG_FILE"
+    fi
+    log "Shutdown confirmation disabled."
+else
+    log "Configuration file not found. Creating it..."
+    # Create the config file and set ConfirmLogout to false
+    mkdir -p "$HOME/.config"
+    log "[General]" > "$CONFIG_FILE"
+    log "ConfirmLogout=false" >> "$CONFIG_FILE"
+    log "Configuration file created and shutdown confirmation disabled."
+fi
+
+
 # Create the update script
 sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOLU
 #!/bin/bash
