@@ -184,7 +184,7 @@ log "Snap update completed."
 
 log "All updates completed successfully."
 exit 0
-EOLU 
+EOLU
 
 echo "Configuration file created at update_script.sh"
 sudo chmod +x /usr/local/bin/update_script.sh
