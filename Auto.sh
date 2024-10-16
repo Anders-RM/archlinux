@@ -155,12 +155,12 @@ CONFIG_FILE="$HOME/.config/ksmserverrc"
 # Check if the file exists
 if [ -f "$CONFIG_FILE" ]; then
     # Update or add the ConfirmLogout setting
-    if grep -q '^ConfirmLogout=' "$CONFIG_FILE"; then
+    if grep -q '^confirmLogout=' "$CONFIG_FILE"; then
         # If it exists, change its value to false
-        sed -i 's/^ConfirmLogout=.*/ConfirmLogout=false/' "$CONFIG_FILE"
+        sed -i 's/^confirmLogout=.*/confirmLogout=false/' "$CONFIG_FILE"
     else
         # If it doesn't exist, add it to the file
-        echo "ConfirmLogout=false" >> "$CONFIG_FILE"
+        echo "confirmLogout=false" >> "$CONFIG_FILE"
     fi
     log "Shutdown confirmation disabled."
 else
@@ -168,7 +168,7 @@ else
     # Create the config file and set ConfirmLogout to false
     mkdir -p "$HOME/.config"
     echo "[General]" > "$CONFIG_FILE"
-    echo "ConfirmLogout=false" >> "$CONFIG_FILE"
+    echo "confirmLogout=false" >> "$CONFIG_FILE"
     log "Configuration file created and shutdown confirmation disabled."
 fi
 
@@ -205,7 +205,7 @@ log "Flatpak update completed."
 log "Starting Snap update..."
 sudo snap refresh | tee -a \$LOGFILE
 log "Snap update completed."
-
+ks
 log "All updates completed successfully."
 exit 0
 EOLU
