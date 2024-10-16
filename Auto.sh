@@ -36,6 +36,17 @@ snapId=(
     ""
 )
 
+# Repositories to clone and install
+cloneRepos=(
+    "https://aur.archlinux.org/yay.git"
+    "https://aur.archlinux.org/ttf-ms-win11-auto.git"
+)
+
+repoDirs=(
+    "yay"
+    "ttf-ms-win11-auto"
+)
+
 sddmir="/etc/sddm.conf.d"
 sddmFile="$sddmir/kde_settings.conf"
 
@@ -52,22 +63,21 @@ for PId in "${pacmanId[@]}"; do
     sudo pacman -S --noconfirm "$PId" | tee -a "$LOG_FILE"
 done
 
-
-log "Cloning yay repository"
-git clone https://aur.archlinux.org/yay.git | tee -a "$LOG_FILE"
-cd yay
-log "Building and installing yay"
-makepkg -si --noconfirm | tee -a "$LOG_FILE"
-cd -
-rm -rfd yay
-
-log "Cloning ttf-ms-win11-auto repository"
-git clone https://aur.archlinux.org/ttf-ms-win11-auto.git | tee -a "$LOG_FILE"
-cd ttf-ms-win11-auto
-log "Building and installing ttf-ms-win11-auto"
-makepkg -si --noconfirm | tee -a "$LOG_FILE"
-cd -
-rm -rfd ttf-ms-win11-auto
+# Clone and install repositories
+for i in "${!cloneRepos[@]}"; do
+    repoUrl="${cloneRepos[$i]}"
+    repoDir="${repoDirs[$i]}"
+    
+    log "Cloning $repoDir repository"
+    git clone "$repoUrl" | tee -a "$LOG_FILE"
+    
+    cd "$repoDir"
+    log "Building and installing $repoDir"
+    makepkg -si --noconfirm | tee -a "$LOG_FILE"
+    
+    cd -
+    rm -rfd "$repoDir"
+done
 
 # Install packages for yay
 for YId in "${yayId[@]}"; do
@@ -96,7 +106,6 @@ for SId in "${snapId[@]}"; do
         sudo snap install --stable --classic "$SId" | tee -a "$LOG_FILE"
     fi
 done
-
 
 echo "setup 1Password enable SSH agent under the developer settings."
 
@@ -128,7 +137,6 @@ EOL
 
 # Display a message
 echo "Configuration file created at $sddmFile"
-
 
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
