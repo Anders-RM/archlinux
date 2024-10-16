@@ -18,12 +18,6 @@ pacmanId=(
     "flatpak"
     "python-beautifulsoup4"
     "python-lxml"
-    "p7zip"
-    "httpdirfs"
-    "meson"
-    "help2man"
-    "doxygen"
-    "graphviz"
 )
 # Install Programs using yay/aur
 yayId=(
@@ -45,14 +39,10 @@ snapId=(
 # Repositories to clone and install
 cloneRepos=(
     "https://aur.archlinux.org/yay.git"
-    "https://aur.archlinux.org/httpdirfs.git"
-    "https://aur.archlinux.org/ttf-ms-win11-auto.git"
 )
 
 repoDirs=(
     "yay"
-    "httpdirfs"
-    "ttf-ms-win11-auto"
 )
 
 sddmir="/etc/sddm.conf.d"
