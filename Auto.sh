@@ -123,7 +123,7 @@ killall 1password | tee -a "$LOG_FILE"
 # Create SDDM configuration
 sudo mkdir -p "/etc/sddm.conf.d"
 
-sudo tee "/etc/sddm.conf.d/kde_settings.conf" > /dev/null <<EOL
+sudo tee "/etc/sddm.conf.d/kde_settings.conf" > /dev/null <<EOLSD
 [Autologin]
 Relogin=false
 Session=
@@ -139,7 +139,7 @@ Current=breeze
 [Users]
 MaximumUid=60513
 MinimumUid=1000
-EOL
+EOLSD
 
 # Display message for configuration file creation
 echo "Configuration file created at kde_settings.conf"
@@ -149,7 +149,7 @@ log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
 # Create the update script
-sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOL
+sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOLU
 #!/bin/bash
 
 LOGFILE="/var/log/update_script.log"
@@ -184,13 +184,13 @@ log "Snap update completed."
 
 log "All updates completed successfully."
 exit 0
-EOL 
+EOLU 
 
 echo "Configuration file created at update_script.sh"
 sudo chmod +x /usr/local/bin/update_script.sh
 
 # Create systemd service for the update script
-sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOL
+sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOLS
 [Unit]
 Description=Run update script on shutdown
 DefaultDependencies=no
@@ -204,7 +204,7 @@ TimeoutStopSec=1800
 
 [Install]
 WantedBy=halt.target reboot.target shutdown.target
-EOL
+EOLS
 
 echo "Configuration file created at update-script.service"
 
