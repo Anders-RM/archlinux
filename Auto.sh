@@ -172,7 +172,6 @@ else
     log "Configuration file created and shutdown confirmation disabled."
 fi
 
-
 # Create the update script
 sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOLU
 #!/bin/bash
