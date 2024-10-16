@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 LOG_FILE="$SCRIPT_DIR/package_install.log"
 
@@ -7,6 +8,7 @@ LOG_FILE="$SCRIPT_DIR/package_install.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 touch "$LOG_FILE"
 
+# Logging function
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
@@ -19,6 +21,7 @@ pacmanId=(
     "python-beautifulsoup4"
     "python-lxml"
 )
+
 # Install Programs using yay/aur
 yayId=(
     "snapd"
@@ -45,19 +48,18 @@ repoDirs=(
     "yay"
 )
 
-sddmir="/etc/sddm.conf.d"
-sddmFile="$sddmir/kde_settings.conf"
-
+# Set system locale
 log "Setting locale to English Denmark"
 export LC_ALL="en_DK.UTF-8"
 sudo localectl set-locale LANG=en_DK.UTF-8 | tee -a "$LOG_FILE"
 
+# Import 1Password GPG key
 log "Importing 1Password GPG key"
 curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import | tee -a "$LOG_FILE"
 
 # Update pacman packages
 log "Starting pacman update..."
-sudo pacman -Syu --noconfirm | tee -a $LOGFILE
+sudo pacman -Syu --noconfirm | tee -a "$LOG_FILE"
 log "Pacman update completed."
 
 # Install packages from pacman
@@ -74,12 +76,12 @@ for i in "${!cloneRepos[@]}"; do
     log "Cloning $repoDir repository"
     git clone "$repoUrl" | tee -a "$LOG_FILE"
     
-    cd "$repoDir"
+    cd "$repoDir" || exit
     log "Building and installing $repoDir"
     makepkg -si --noconfirm | tee -a "$LOG_FILE"
     
-    cd -
-    rm -rfd "$repoDir"
+    cd - || exit
+    rm -rf "$repoDir"
 done
 
 # Install packages for yay
@@ -90,7 +92,8 @@ for YId in "${yayId[@]}"; do
     sleep 10
 done
 
-log "Enable Snap"
+# Enable and configure Snap
+log "Enabling Snap"
 sudo systemctl enable --now snapd.socket
 sudo systemctl enable --now snapd.apparmor.service
 log "Linking snapd"
@@ -110,17 +113,17 @@ for SId in "${snapId[@]}"; do
     fi
 done
 
-echo "setup 1Password enable SSH agent under the developer settings."
-
+# Final setup for 1Password
+echo "Setup 1Password: Enable SSH agent under the developer settings."
 read -p "Press any key to continue. . ."
 
 log "Killing 1Password"
 killall 1password | tee -a "$LOG_FILE"
 
-# Create the directory if it doesn't exist
-sudo mkdir -p "$sddmir"
+# Create SDDM configuration
+sudo mkdir -p "/etc/sddm.conf.d"
 
-sudo tee "$sddmFile" > /dev/null <<EOL
+sudo tee "/etc/sddm.conf.d/kde_settings.conf" > /dev/null <<EOL
 [Autologin]
 Relogin=false
 Session=
@@ -138,32 +141,77 @@ MaximumUid=60513
 MinimumUid=1000
 EOL
 
-# Display a message
-echo "Configuration file created at $sddmFile"
+# Display message for configuration file creation
+echo "Configuration file created at kde_settings.conf"
 
+# Apply KDE Plasma settings
 log "Applying KDE Plasma settings"
 lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
 
+# Create the update script
+sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOL
+#!/bin/bash
+
+LOGFILE="/var/log/update_script.log"
+
+# Ensure the log file exists
+touch \$LOGFILE
+
+# Log function
+log() {
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') - \$1" | tee -a \$LOGFILE
+}
+
 # Update pacman packages
 log "Starting pacman update..."
-sudo pacman -Syu --noconfirm | tee -a $LOGFILE
+sudo pacman -Syu --noconfirm | tee -a \$LOGFILE
 log "Pacman update completed."
 
 # Update AUR packages
 log "Starting yay update..."
-yay -Syu --noconfirm | tee -a $LOGFILE
+yay -Syu --noconfirm | tee -a \$LOGFILE
 log "Yay update completed."
 
 # Update Flatpak packages
 log "Starting Flatpak update..."
-flatpak update -y | tee -a $LOGFILE
+flatpak update -y | tee -a \$LOGFILE
 log "Flatpak update completed."
 
 # Update Snap packages
 log "Starting Snap update..."
-sudo snap refresh | tee -a $LOGFILE
+sudo snap refresh | tee -a \$LOGFILE
 log "Snap update completed."
 
+log "All updates completed successfully."
+exit 0
+EOL 
 
+echo "Configuration file created at update_script.sh"
+sudo chmod +x /usr/local/bin/update_script.sh
+
+# Create systemd service for the update script
+sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOL
+[Unit]
+Description=Run update script on shutdown
+DefaultDependencies=no
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update_script.sh
+RemainAfterExit=yes
+TimeoutStopSec=1800
+
+[Install]
+WantedBy=halt.target reboot.target shutdown.target
+EOL
+
+echo "Configuration file created at update-script.service"
+
+# Reload systemd and enable the service
+sudo systemctl daemon-reload
+sudo systemctl enable update-script.service
+
+# Final updates and reboot
 log "Rebooting system"
 sudo reboot | tee -a "$LOG_FILE"
