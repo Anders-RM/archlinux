@@ -83,6 +83,7 @@ if grep -q "NumLock" "$KDE_CONFIG_FILE"; then
     sed -i 's/NumLock=.*/NumLock=0/' "$KDE_CONFIG_FILE"
 else
     echo -e "\n[Keyboard]\nNumLock=0" >> "$KDE_CONFIG_FILE"
+    log "NumLock on statup set to Turn on ."    
 fi
 
 exit 0
