@@ -12,9 +12,25 @@ touch "$LOG_FILE"
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
-./app_install.sh | tee -a "$LOG_FILE"
-./sddm_kdm_Config.sh | tee -a "$LOG_FILE"
-./update_service.sh | tee -a "$LOG_FILE"
+
+# Execute scripts and log their output
+execute_and_log() {
+    local script="$1"
+    log "Executing $script"
+    if ./"$script" | tee -a "$LOG_FILE"; then
+        log "$script executed successfully"
+    else
+        log "Error executing $script"
+        exit 1
+    fi
+}
+
+# List of scripts to execute
+scripts=("app_install.sh" "sddm_kdm_Config.sh" "update_service.sh")
+
+for script in "${scripts[@]}"; do
+    execute_and_log "$script"
+done
 
 # Final updates and reboot
 log "Rebooting system"
