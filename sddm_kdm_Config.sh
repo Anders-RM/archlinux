@@ -13,15 +13,51 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 
+# General function to run commands and handle failures
+run_command() {
+    if eval "$1"; then
+        log "$2 succeeded"
+    else
+        log "$2 failed"
+        exit 1
+    fi
+}
+
+# Function to create or update a config file
+update_config_file() {
+    local file_path="$1"
+    local setting="$2"
+    local value="$3"
+    local section="$4"
+
+    if [ -f "$file_path" ]; then
+        # Update or add the setting in the existing file
+        if grep -q "^$setting=" "$file_path"; then
+            sed -i "s/^$setting=.*/$setting=$value/" "$file_path"
+        else
+            echo -e "\n[$section]\n$setting=$value" >> "$file_path"
+        fi
+    else
+        # Create the file and add the setting
+        mkdir -p "$(dirname "$file_path")"
+        echo -e "[$section]\n$setting=$value" > "$file_path"
+    fi
+    log "$setting updated or added in $file_path"
+}
+SDDM_CONFIG="/etc/sddm.conf.d/kde_settings.conf"
+CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
+NUM_LOCK="$HOME/.config/kcminputrc"
+
 # Set system locale
 log "Setting locale to English Denmark"
-export LC_ALL="en_DK.UTF-8"
-sudo localectl set-locale LANG=en_DK.UTF-8 | tee -a "$LOG_FILE"
+run_command "sudo localectl set-locale LANG=en_DK.UTF-8" "Locale setup"
 
 # Create SDDM configuration
-sudo mkdir -p "/etc/sddm.conf.d"
 
-sudo tee "/etc/sddm.conf.d/kde_settings.conf" > /dev/null <<EOLSD
+log "Creating SDDM configuration at $SDDM_CONFIG"
+sudo mkdir -p "$(dirname "$SDDM_CONFIG")"
+
+sudo tee "$SDDM_CONFIG" > /dev/null <<EOLSD
 [Autologin]
 Relogin=false
 Session=
@@ -38,52 +74,22 @@ Current=breeze
 MaximumUid=60513
 MinimumUid=1000
 EOLSD
-
-# Display message for configuration file creation
-log "Configuration file created at kde_settings.conf"
+log "SDDM configuration created."
 
 # Apply KDE Plasma settings
 log "Applying KDE Plasma settings"
-lookandfeeltool --apply org.kde.breezedark.desktop | tee -a "$LOG_FILE"
+run_command "lookandfeeltool --apply org.kde.breezedark.desktop" "KDE Plasma settings"
 
+# Update ksmserverrc for confirmLogout setting
+log "Updating shutdown confirmation setting"
 
-# Path to the ksmserverrc configuration file
-CONFIG_FILE="$HOME/.config/ksmserverrc"
+update_config_file "$CONFIRM_LOGOUT" "confirmLogout" "false" "General"
 
-# Check if the file exists
-if [ -f "$CONFIG_FILE" ]; then
-    # Update or add the ConfirmLogout setting
-    if grep -q '^confirmLogout=' "$CONFIG_FILE"; then
-        # If it exists, change its value to false
-        sed -i 's/^confirmLogout=.*/confirmLogout=false/' "$CONFIG_FILE"
-    else
-        # If it doesn't exist, add it to the file
-        echo "confirmLogout=false" >> "$CONFIG_FILE"
-    fi
-    log "Shutdown confirmation disabled."
-else
-    log "Configuration file not found. Creating it..."
-    # Create the config file and set ConfirmLogout to false
-    mkdir -p "$HOME/.config"
-    echo "[General]" > "$CONFIG_FILE"
-    echo "confirmLogout=false" >> "$CONFIG_FILE"
-    log "Configuration file created and shutdown confirmation disabled."
-fi
+# Update NumLock setting in kcminputrc
+log "Updating NumLock setting"
 
-# Define the KDE config file location
-KDE_CONFIG_FILE="$HOME/.config/kcminputrc"
+update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
 
-# Check if the config file exists; if not, create it
-if [[ ! -f "$KDE_CONFIG_FILE" ]]; then
-    echo "[Keyboard]" > "$KDE_CONFIG_FILE"
-fi
-
-# Add or update the NumLock setting
-if grep -q "NumLock" "$KDE_CONFIG_FILE"; then
-    sed -i 's/NumLock=.*/NumLock=0/' "$KDE_CONFIG_FILE"
-else
-    echo -e "\n[Keyboard]\nNumLock=0" >> "$KDE_CONFIG_FILE"
-    log "NumLock on statup set to Turn on ."    
-fi
+log "NumLock on startup set to off."
 
 exit 0

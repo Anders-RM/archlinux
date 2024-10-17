@@ -13,56 +13,37 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 
-# Install Programs using pacman
-pacmanId=(
-    "vlc"
-    "zed"
-    "flatpak"
-    "python-beautifulsoup4"
-    "python-lxml"
-)
+# General function to run commands and log output
+run_command() {
+    if eval "$1"; then
+        log "$2 succeeded"
+    else
+        log "$2 failed"
+        exit 1
+    fi
+}
 
-# Repositories to clone and install
-cloneRepos=(
-    "https://aur.archlinux.org/yay.git"
-)
-
-repoDirs=(
-    "yay"
-)
-
-# Install Programs using yay/aur
-yayId=(
-    "snapd"
-    "bauh"
-    "1password"
-)
-
-# Install Programs using flatpak
-flatpakId=(
-    "com.brave.Browser"
-)
-
-# Install Programs using snap
-snapId=(
-    ""
-)
-
+# Define packages
+pacmanId=("vlc" "zed" "flatpak" "python-beautifulsoup4" "python-lxml")
+cloneRepos=("https://aur.archlinux.org/yay.git")
+repoDirs=("yay")
+yayId=("snapd" "bauh" "1password")
+flatpakId=("com.brave.Browser")
+snapId=()
 
 # Import 1Password GPG key
 log "Importing 1Password GPG key"
-curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import | tee -a "$LOG_FILE"
+run_command "curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import" "Importing 1Password GPG key"
 
 # Update pacman packages
 log "Starting pacman update..."
-sudo pacman -Syu --noconfirm | tee -a "$LOG_FILE"
-log "Pacman update completed."
+run_command "sudo pacman -Syu --noconfirm" "Pacman update"
 
 # Install packages from pacman
-for PId in "${pacmanId[@]}"; do
-    log "Installing $PId with pacman"
-    sudo pacman -S --noconfirm "$PId" | tee -a "$LOG_FILE"
-done
+if [ ${#pacmanId[@]} -gt 0 ]; then
+    log "Installing packages with pacman"
+    run_command "sudo pacman -S --noconfirm ${pacmanId[*]}" "Pacman package installation"
+fi
 
 # Clone and install repositories
 for i in "${!cloneRepos[@]}"; do
@@ -70,49 +51,47 @@ for i in "${!cloneRepos[@]}"; do
     repoDir="${repoDirs[$i]}"
     
     log "Cloning $repoDir repository"
-    git clone "$repoUrl" | tee -a "$LOG_FILE"
+    run_command "git clone \"$repoUrl\" \"$repoDir\"" "Cloning $repoDir"
     
-    cd "$repoDir" || exit
+    pushd "$repoDir" > /dev/null || exit
     log "Building and installing $repoDir"
-    makepkg -si --noconfirm | tee -a "$LOG_FILE"
+    run_command "makepkg -si --noconfirm" "Building and installing $repoDir"
     
-    cd - || exit
+    popd > /dev/null || exit
     rm -rf "$repoDir"
 done
 
 # Install packages for yay
-for YId in "${yayId[@]}"; do
-    log "Installing $YId with yay"
-    yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
-done
+if [ ${#yayId[@]} -gt 0 ]; then
+    log "Installing packages with yay"
+    run_command "yay -Syu --noconfirm ${yayId[*]}" "Yay package installation"
+fi
 
 # Enable and configure Snap
 log "Enabling Snap"
-sudo systemctl enable --now snapd.socket
-sudo systemctl enable --now snapd.apparmor.service
-log "Linking snapd"
-sudo ln -s /var/lib/snapd/snap /snap | tee -a "$LOG_FILE"
+run_command "sudo systemctl enable --now snapd.socket && sudo systemctl enable --now snapd.apparmor.service" "Enabling snap services"
+run_command "sudo ln -sf /var/lib/snapd/snap /snap" "Linking snapd"
 
 # Install packages for flatpak
-for FId in "${flatpakId[@]}"; do
-    log "Installing $FId with flatpak"
-    flatpak install flathub -y "$FId" | tee -a "$LOG_FILE"
-done
+if [ ${#flatpakId[@]} -gt 0 ]; then
+    log "Installing packages with flatpak"
+    run_command "flatpak install flathub -y ${flatpakId[*]}" "Flatpak package installation"
+fi
 
 # Install packages from snap
 for SId in "${snapId[@]}"; do
     if [ -n "$SId" ]; then
         log "Installing $SId with snap"
-        sudo snap install --stable --classic "$SId" | tee -a "$LOG_FILE"
+        run_command "sudo snap install --stable --classic \"$SId\"" "Snap package installation for $SId"
     fi
 done
 
 # Final setup for 1Password
-echo "Setup 1Password: Enable SSH agent under the developer settings.
-"
+log "Setup 1Password: Enable SSH agent under the developer settings."
+echo "Setup 1Password: Enable SSH agent under the developer settings."
 read -p "Press any key to continue. . ."
 
 log "Killing 1Password"
-killall 1password | tee -a "$LOG_FILE"
+run_command "killall 1password" "Killing 1Password"
 
 exit 0
