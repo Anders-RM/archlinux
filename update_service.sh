@@ -57,7 +57,7 @@ sudo chmod +x /usr/local/bin/update_script.sh
 # Create systemd service for the update script
 sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOLS
 [Unit]
-Description=Run update script on shutdown
+Description=Update Script
 DefaultDependencies=no
 Before=shutdown.target
 
