@@ -13,7 +13,8 @@ log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 ./app_install.sh | tee -a "$LOG_FILE"
-
+./sddm_kdm_Config.sh
+./update_service.sh
 
 # Final updates and reboot
 log "Rebooting system"
