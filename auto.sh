@@ -26,7 +26,7 @@ execute_and_log() {
 }
 
 # List of scripts to execute
-scripts=("app_install.sh" "sddm_kdm_Config.sh" "update_service.sh")
+scripts=("app_install.sh" "sddm_kdm_Config.sh" "update_service.sh" "appimage.sh")
 
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
