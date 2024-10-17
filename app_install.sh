@@ -83,7 +83,7 @@ done
 # Install packages for yay
 for YId in "${yayId[@]}"; do
     log "Installing $YId with yay"
-    sudo yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
+    yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
 done
 
 # Enable and configure Snap
