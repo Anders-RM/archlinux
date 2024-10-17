@@ -76,3 +76,5 @@ log "Configuration file created at update-script.service"
 # Reload systemd and enable the service
 sudo systemctl daemon-reload
 sudo systemctl enable update-script.service
+
+exit 0

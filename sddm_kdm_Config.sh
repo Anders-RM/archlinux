@@ -69,3 +69,5 @@ else
     echo "confirmLogout=false" >> "$CONFIG_FILE"
     log "Configuration file created and shutdown confirmation disabled."
 fi
+
+exit 0

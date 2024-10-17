@@ -74,7 +74,7 @@ for i in "${!cloneRepos[@]}"; do
     
     cd "$repoDir" || exit
     log "Building and installing $repoDir"
-    makepkg -si --noconfirm | tee -a "$LOG_FILE"
+    sudo makepkg -si --noconfirm | tee -a "$LOG_FILE"
     
     cd - || exit
     rm -rf "$repoDir"
@@ -83,9 +83,7 @@ done
 # Install packages for yay
 for YId in "${yayId[@]}"; do
     log "Installing $YId with yay"
-    yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
-    log "Sleeping for 10 seconds"
-    sleep 10
+    sudo yay -Syu --noconfirm "$YId" | tee -a "$LOG_FILE"
 done
 
 # Enable and configure Snap
@@ -115,3 +113,5 @@ read -p "Press any key to continue. . ."
 
 log "Killing 1Password"
 killall 1password | tee -a "$LOG_FILE"
+
+exit 0
