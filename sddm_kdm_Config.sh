@@ -70,4 +70,19 @@ else
     log "Configuration file created and shutdown confirmation disabled."
 fi
 
+# Define the KDE config file location
+KDE_CONFIG_FILE="$HOME/.config/kcminputrc"
+
+# Check if the config file exists; if not, create it
+if [[ ! -f "$KDE_CONFIG_FILE" ]]; then
+    echo "[Keyboard]" > "$KDE_CONFIG_FILE"
+fi
+
+# Add or update the NumLock setting
+if grep -q "NumLock" "$KDE_CONFIG_FILE"; then
+    sed -i 's/NumLock=.*/NumLock=0/' "$KDE_CONFIG_FILE"
+else
+    echo -e "\n[Keyboard]\nNumLock=0" >> "$KDE_CONFIG_FILE"
+fi
+
 exit 0
