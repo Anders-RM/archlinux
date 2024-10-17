@@ -12,7 +12,7 @@ touch "$LOG_FILE"
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
-./App_install.sh | tee -a "$LOG_FILE"
+./app_install.sh | tee -a "$LOG_FILE"
 
 
 # Final updates and reboot
