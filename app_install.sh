@@ -74,7 +74,7 @@ for i in "${!cloneRepos[@]}"; do
     
     cd "$repoDir" || exit
     log "Building and installing $repoDir"
-    sudo makepkg -si --noconfirm | tee -a "$LOG_FILE"
+    makepkg -si --noconfirm | tee -a "$LOG_FILE"
     
     cd - || exit
     rm -rf "$repoDir"
