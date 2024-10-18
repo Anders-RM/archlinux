@@ -33,20 +33,19 @@ wait $!
 UI_CONFIG=$HOME/.config/bauh/config.yml
 ARCH_CONFIG=$HOME/.config/bauh/arch.yml
 
-
 # Modify config.yml
-echo "Modifying $UI_CONFIG..."
-sed -i 's/after_upgrade: false/after_upgrade: true/' "$UI_CONFIG"
-sed -i 's/multithreaded: false/multithreaded: true/' "$UI_CONFIG"
-sed -i 's/auto_scale: false/auto_scale: true/' "$UI_CONFIG"
-sed -i 's/theme: light/theme: darcula/' "$UI_CONFIG"
+log "Modifying $UI_CONFIG..."
+run_command "sed -i 's/after_upgrade: false/after_upgrade: true/' \"$UI_CONFIG\"" "Modifying config.yml"
+run_command "sed -i 's/multithreaded: false/multithreaded: true/' \"$UI_CONFIG\"" "Modifying config.yml"
+run_command "sed -i 's/auto_scale: false/auto_scale: true/' \"$UI_CONFIG\"" "Modifying config.yml"
+run_command "sed -i 's/theme: light/theme: darcula/' \"$UI_CONFIG\"" "Modifying config.yml"
 
 # Modify arch.yml
-echo "Modifying $ARCH_CONFIG..."
-sed -i 's/aur_rebuild_detector: false/aur_rebuild_detector: true/' "$ARCH_CONFIG"
-sed -i 's/refresh_mirrors_startup: false/refresh_mirrors_startup: true/' "$ARCH_CONFIG"
-sed -i 's/repositories_mthread_download: false/repositories_mthread_download: true/' "$ARCH_CONFIG"
-sed -i 's/suggest_optdep_uninstall: false/suggest_optdep_uninstall: true/' "$ARCH_CONFIG"
-sed -i 's/suggest_unneeded_uninstall: false/suggest_unneeded_uninstall: true/' "$ARCH_CONFIG"
+log "Modifying $ARCH_CONFIG..."
+run_command "sed -i 's/aur_rebuild_detector: false/aur_rebuild_detector: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
+run_command "sed -i 's/refresh_mirrors_startup: false/refresh_mirrors_startup: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
+run_command "sed -i 's/repositories_mthread_download: false/repositories_mthread_download: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
+run_command "sed -i 's/suggest_optdep_uninstall: false/suggest_optdep_uninstall: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
+run_command "sed -i 's/suggest_unneeded_uninstall: false/suggest_unneeded_uninstall: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
 
-echo "Configuration updates completed."
+log "Configuration updates completed."
