@@ -31,6 +31,7 @@ scripts=(
     "sddm_kdm_Config.sh"
     "update_service.sh"
     "appimage.sh"
+    "bauh.sh"
 )
 
 for script in "${scripts[@]}"; do
