@@ -2,7 +2,7 @@
 
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/sddm_kdm_Config.log"
+LOG_FILE="$SCRIPT_DIR/merged_config.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
@@ -44,19 +44,24 @@ update_config_file() {
     fi
     log "$setting updated or added in $file_path"
 }
+
+# Paths and variables for configurations
 SDDM_CONFIG="/etc/sddm.conf.d/kde_settings.conf"
 CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
 NUM_LOCK="$HOME/.config/kcminputrc"
+CONFIG_FILE="$HOME/.local/share/plasma-org.kde.plasma.desktop-appletsrc"
+UNPIN_APP=(
+    "systemsettings.desktop"
+    "preferred://filemanager"
+)
 
 # Set system locale
 log "Setting locale to English Denmark"
 run_command "sudo localectl set-locale LANG=en_DK.UTF-8" "Locale setup"
 
 # Create SDDM configuration
-
 log "Creating SDDM configuration at $SDDM_CONFIG"
 sudo mkdir -p "$(dirname "$SDDM_CONFIG")"
-
 sudo tee "$SDDM_CONFIG" > /dev/null <<EOLSD
 [Autologin]
 Relogin=false
@@ -82,14 +87,22 @@ run_command "lookandfeeltool --apply org.kde.breezedark.desktop" "KDE Plasma set
 
 # Update ksmserverrc for confirmLogout setting
 log "Updating shutdown confirmation setting"
-
 update_config_file "$CONFIRM_LOGOUT" "confirmLogout" "false" "General"
 
 # Update NumLock setting in kcminputrc
 log "Updating NumLock setting"
-
 update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
-
 log "NumLock on startup set to off."
+
+# Unpin specific apps from the task manager
+log "Unpinning apps from task manager"
+
+for APP_NAME in "${UNPIN_APP[@]}"; do
+    log "Unpinning $APP_NAME from task manager..."
+    sed -i "/$APP_NAME/d" "$CONFIG_FILE"
+done
+
+
+log "Script completed successfully."
 
 exit 0

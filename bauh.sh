@@ -49,3 +49,5 @@ run_command "sed -i 's/suggest_optdep_uninstall: false/suggest_optdep_uninstall:
 run_command "sed -i 's/suggest_unneeded_uninstall: false/suggest_unneeded_uninstall: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
 
 log "Configuration updates completed."
+
+exit 0
