@@ -2,7 +2,7 @@
 
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/merged_config.log"
+LOG_FILE="$SCRIPT_DIR/sddm_kdm_Config.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
@@ -49,7 +49,7 @@ update_config_file() {
 SDDM_CONFIG="/etc/sddm.conf.d/kde_settings.conf"
 CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
 NUM_LOCK="$HOME/.config/kcminputrc"
-CONFIG_FILE="$HOME/.local/share/plasma-org.kde.plasma.desktop-appletsrc"
+UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 UNPIN_APP=(
     "systemsettings.desktop"
     "preferred://filemanager"
@@ -99,7 +99,7 @@ log "Unpinning apps from task manager"
 
 for APP_NAME in "${UNPIN_APP[@]}"; do
     log "Unpinning $APP_NAME from task manager..."
-    sed -i "/$APP_NAME/d" "$CONFIG_FILE"
+    sed -i "/$APP_NAME/d" "$UNPIN_CONFIG_FILE"
 done
 
 
