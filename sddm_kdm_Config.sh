@@ -51,6 +51,7 @@ CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
 NUM_LOCK="$HOME/.config/kcminputrc"
 UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 KRUNDER_CONFIG_FILE="$HOME/.config/krunnerrc"
+DOLPON_CONFIG_FILE="$HOME/.config/dolphinrc"
 UNPIN_APP=(
     "systemsettings.desktop"
     "preferred://filemanager"
@@ -96,6 +97,10 @@ update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
 log "NumLock on startup set to off."
 
 update_config_file "$KRUNDER_CONFIG_FILE" "FreeFloating" "true" "General"
+
+update_config_file "$DOLPON_CONFIG_FILE" "HomeUrl" "file:///home" "General"
+update_config_file "$DOLPON_CONFIG_FILE" "RememberOpenTabs" "false" "General"
+
 
 # Unpin specific apps from the task manager
 log "Unpinning apps from task manager"
