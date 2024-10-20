@@ -110,6 +110,8 @@ run_command "lookandfeeltool --apply org.kde.breezedark.desktop" "KDE Plasma set
 log "Updating shutdown confirmation setting"
 update_config_file "$CONFIRM_LOGOUT" "confirmLogout" "false" "General"
 
+update_config_file "$CONFIRM_LOGOUT" "loginMode" "emptySession" "General"
+
 # Update NumLock setting in kcminputrc
 log "Updating NumLock setting"
 update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
