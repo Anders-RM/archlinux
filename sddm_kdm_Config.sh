@@ -45,6 +45,28 @@ update_config_file() {
     log "$setting updated or added in $file_path"
 }
 
+# Function to update or add a specific setting to a complex section in a config file
+update_complex_section() {
+    local file_path="$1"
+    local section="$2"
+    local setting="$3"
+
+    if ! grep -q "\[$section\]" "$file_path"; then
+        # If the section doesn't exist, add it at the end of the file
+        echo -e "\n[$section]\n$setting" >> "$file_path"
+    else
+        # If the section exists, check if the setting exists
+        if grep -q "$setting" "$file_path"; then
+            # If the setting already exists, do nothing
+            log "$setting already present in $section"
+        else
+            # Add the setting under the existing section
+            sed -i "/\[$section\]/a $setting" "$file_path"
+        fi
+    fi
+    log "$setting added or ensured in $section of $file_path"
+}
+
 # Paths and variables for configurations
 SDDM_CONFIG="/etc/sddm.conf.d/kde_settings.conf"
 CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
@@ -52,10 +74,7 @@ NUM_LOCK="$HOME/.config/kcminputrc"
 UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 KRUNDER_CONFIG_FILE="$HOME/.config/krunnerrc"
 DOLPON_CONFIG_FILE="$HOME/.config/dolphinrc"
-UNPIN_APP=(
-    "systemsettings.desktop"
-    "preferred://filemanager"
-)
+
 
 # Set system locale
 log "Setting locale to English Denmark"
@@ -101,16 +120,13 @@ update_config_file "$KRUNDER_CONFIG_FILE" "FreeFloating" "true" "General"
 update_config_file "$DOLPON_CONFIG_FILE" "HomeUrl" "file:///$HOME" "General"
 update_config_file "$DOLPON_CONFIG_FILE" "RememberOpenedTabs" "false" "General"
 
-
 # Unpin specific apps from the task manager
 log "Unpinning apps from task manager"
 
-for APP_NAME in "${UNPIN_APP[@]}"; do
-    log "Unpinning $APP_NAME from task manager..."
-    sed -i "/$APP_NAME/d" "$UNPIN_CONFIG_FILE"
-done
 
+# Add the specific setting to plasma-org.kde.plasma.desktop-appletsrc
+log "Adding preferred browser setting to KDE Plasma"
+update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 
 log "Script completed successfully."
-
 exit 0
