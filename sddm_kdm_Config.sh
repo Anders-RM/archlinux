@@ -117,7 +117,7 @@ log "NumLock on startup set to off."
 
 update_config_file "$KRUNDER_CONFIG_FILE" "FreeFloating" "true" "General"
 
-update_config_file "$DOLPON_CONFIG_FILE" "HomeUrl" "file:///$HOME" "General"
+update_config_file "$DOLPON_CONFIG_FILE" "HomeUrl" "file://$HOME" "General"
 update_config_file "$DOLPON_CONFIG_FILE" "RememberOpenedTabs" "false" "General"
 
 # Unpin specific apps from the task manager
