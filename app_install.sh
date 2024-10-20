@@ -129,9 +129,4 @@ log "Adding preferred browser setting to KDE Plasma"
 update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 
 log "Script completed successfully."
-
-# Final updates and reboot
-log "Rebooting system"
-sudo reboot | tee -a "$LOG_FILE"
-
 exit 0
