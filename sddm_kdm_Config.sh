@@ -50,6 +50,7 @@ SDDM_CONFIG="/etc/sddm.conf.d/kde_settings.conf"
 CONFIRM_LOGOUT="$HOME/.config/ksmserverrc"
 NUM_LOCK="$HOME/.config/kcminputrc"
 UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
+KRUNDER_CONFIG_FILE="$HOME/.config/krunnerrc"
 UNPIN_APP=(
     "systemsettings.desktop"
     "preferred://filemanager"
@@ -93,6 +94,8 @@ update_config_file "$CONFIRM_LOGOUT" "confirmLogout" "false" "General"
 log "Updating NumLock setting"
 update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
 log "NumLock on startup set to off."
+
+update_config_file "$KRUNDER_CONFIG_FILE" "FreeFloating" "true" "General"
 
 # Unpin specific apps from the task manager
 log "Unpinning apps from task manager"
