@@ -126,7 +126,7 @@ log "Unpinning apps from task manager"
 
 # Add the specific setting to plasma-org.kde.plasma.desktop-appletsrc
 log "Adding preferred browser setting to KDE Plasma"
-update_complex_section "$UNPIN_CONFIG_FILE" "[Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
+update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 
 log "Script completed successfully."
 
