@@ -24,7 +24,7 @@ run_command() {
 }
 
 # Define packages
-pacmanId=("vlc" "zed" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin")
+pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin")
 cloneRepos=("https://aur.archlinux.org/yay.git")
 repoDirs=("yay")
 yayId=("snapd" "bauh" "1password")
@@ -87,7 +87,6 @@ for SId in "${snapId[@]}"; do
 done
 
 # Final setup for 1Password
-log "Setup 1Password: Enable SSH agent under the developer settings."
 echo "Setup 1Password: Enable SSH agent under the developer settings."
 read -p "Press any key to continue. . ."
 
