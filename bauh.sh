@@ -48,8 +48,8 @@ run_command "sed -i 's/repositories_mthread_download: false/repositories_mthread
 run_command "sed -i 's/suggest_optdep_uninstall: false/suggest_optdep_uninstall: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
 run_command "sed -i 's/suggest_unneeded_uninstall: false/suggest_unneeded_uninstall: true/' \"$ARCH_CONFIG\"" "Modifying arch.yml"
 log "Configuration updates completed."
-
-#run_command "sudo cp /usr/share/applications/bauh $HOME/.config/autostart/bauh" "Copying .desktop file to autostart"
+mkdir -p "$HOME/.config/autostart"
+run_command "sudo cp /usr/share/applications/bauh_tray.desktop $HOME/.config/autostart/bauh_tray.desktop" "Copying .desktop file to autostart"
 
 
 
