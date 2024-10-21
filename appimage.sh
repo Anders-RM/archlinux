@@ -53,6 +53,7 @@ run_command "sudo cp /opt/filen_appimage/filen-desktop.png /usr/share/icons/file
 # Ensure the autostart directory exists
 mkdir -p "$HOME/.config/autostart"
 run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
-run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/desktop/filen-desktop.desktop" "Copying .desktop file to desktop"
+#dosn't work
+#run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/desktop/filen-desktop.desktop" "Copying .desktop file to desktop"
 
 exit 0
