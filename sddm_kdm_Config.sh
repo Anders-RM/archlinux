@@ -128,6 +128,15 @@ update_config_file "$DOLPON_CONFIG_FILE" "RememberOpenedTabs" "false" "General"
 # Add the specific setting to plasma-org.kde.plasma.desktop-appletsrc
 log "Unpinning apps from task manager"
 update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
-
 log "Script completed successfully."
+#add trashcan to desktop
+sudo tee "$HOME/Desktop" > /dev/null <<EOLT
+[Desktop Entry]
+Type=Application
+Name=Trash
+Exec=kioclient5 trash:/ 
+Icon=trashcan
+Terminal=false
+EOLT
+
 exit 0
