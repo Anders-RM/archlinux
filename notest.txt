@@ -1,1 +1,2 @@
-add filen to desktop
+add vm config 
+add gaming config
