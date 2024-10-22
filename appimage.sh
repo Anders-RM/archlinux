@@ -56,7 +56,7 @@ run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/.config
 run_command "mkdir -p $HOME/filen" "Creating filen directory"
 run_command "ln -s $HOME/filen $HOME/Desktop/Filen" "Creating desktop shortcut"
 log "Filen AppImage installed successfully"
-run_command "konsole -e gio launch /usr/share/applications/filen-desktop.desktop &" "Launching Filen"
+konsole -e gio launch /usr/share/applications/filen-desktop.desktop &
 wait $!
 log "Filen launched successfully"
 
