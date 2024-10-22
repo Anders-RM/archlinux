@@ -55,6 +55,9 @@ mkdir -p "$HOME/.config/autostart"
 run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
 run_command "mkdir -p $HOME/filen" "Creating filen directory"
 run_command "ln -s $HOME/filen $HOME/Desktop/Filen" "Creating desktop shortcut"
-
+log "Filen AppImage installed successfully"
+run_command "konsole -e gio launch /usr/share/applications/filen-desktop.desktop &" "Launching Filen"
+wait $!
+log "Filen launched successfully"
 
 exit 0
