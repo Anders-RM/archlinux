@@ -130,6 +130,7 @@ log "Unpinning apps from task manager"
 update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 log "Script completed successfully."
 #add trashcan to desktop
+log "Adding Trash to Desktop"
 sudo tee "$HOME/Desktop" > /dev/null <<EOLT
 [Desktop Entry]
 Type=Application
