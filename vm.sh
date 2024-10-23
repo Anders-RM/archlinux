@@ -30,5 +30,5 @@ run_command "sudo systemctl start libvirtd.service" "Starting libvirtd service"
 run_command "sudo sed -i '/^#.*unix_sock_group = "libvirt"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt group"
 run_command "sudo sed -i '/^#.*unix_sock_rw_perms = "0770"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt permissions"
 run_command "sudo usermod -aG libvirt $USER" "Adding user to libvirt group"
-run_command "systemctl restart libvirtd.service" "Restarting libvirtd service"
+run_command "sudo systemctl restart libvirtd.service" "Restarting libvirtd service"
 exit 0
