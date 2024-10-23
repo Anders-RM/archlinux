@@ -6,8 +6,8 @@ show_help() {
     echo ""
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
-    echo "  --novm        Skip VM-related scripts"
-    echo "  --nogaming    Skip gaming-related scripts"
+    echo "  -v, --novm        Skip VM-related scripts"
+    echo "  -g, --nogaming    Skip gaming-related scripts"
     # Add more options here as needed
 }
 
@@ -53,8 +53,8 @@ EXECUTE_GAMING=true
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        --novm) EXECUTE_VM=false ;;
-        --nogaming) EXECUTE_GAMING=false ;;
+        -v|--novm) EXECUTE_VM=false ;;
+        -g|--nogaming) EXECUTE_GAMING=false ;;
         -h|--help) show_help; exit 0 ;;
         *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;
     esac
