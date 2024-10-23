@@ -51,6 +51,4 @@ log "Configuration updates completed."
 mkdir -p "$HOME/.config/autostart"
 run_command "sudo cp /usr/share/applications/bauh_tray.desktop $HOME/.config/autostart/bauh_tray.desktop" "Copying .desktop file to autostart"
 
-
-
 exit 0

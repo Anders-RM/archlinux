@@ -59,6 +59,4 @@ log "Filen AppImage installed successfully"
 run_command "gio launch /usr/share/applications/filen-desktop.desktop; exec bash &" "Launching Filen"
 wait $!
 
-log "Filen launched successfully"
-
 exit 0
