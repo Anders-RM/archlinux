@@ -25,6 +25,20 @@ execute_and_log() {
     fi
 }
 
+# Default value for arguments
+EXECUTE_VM=true
+EXECUTE_GAMING=true
+
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --no-vm) EXECUTE_VM=false ;;
+        --no-gaming) EXECUTE_GAMING=false ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 # List of scripts to execute
 scripts=(
     "app_install.sh"
@@ -33,6 +47,15 @@ scripts=(
     "appimage.sh"
     "bauh.sh"
 )
+
+# Conditionally add vm.sh to the list of scripts
+if [ "$EXECUTE_VM" = true ]; then
+    scripts+=("vm.sh")
+fi
+
+if [ "$EXECUTE_gaming" = true ]; then
+    scripts+=("gaming.sh")
+fi
 
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
