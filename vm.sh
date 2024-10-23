@@ -35,7 +35,7 @@ if [ "$(grep -Ec '(vmx|svm)' /proc/cpuinfo)" -gt 0 ]; then
     run_command "sudo usermod -aG libvirt $USER" "Adding user to libvirt group"
     run_command "sudo systemctl restart libvirtd.service" "Restarting libvirtd service"
 else
-    log "CPU does not support virtualization"
+    log "Virtualization Disabled"
     exit 1
 fi
 
