@@ -24,7 +24,7 @@ run_command() {
 }
 
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
-run_command "sudo pacman -S --noconfirm qemu-full virt-manager virt-viewer dnsmasq bridge-utils libguestfs ebtables vde2 openbsd-netcat" "Installing VM packages"
+run_command "sudo pacman -S --noconfirm --overwrite qemu-full virt-manager virt-viewer dnsmasq bridge-utils libguestfs ebtables vde2 openbsd-netcat" "Installing VM packages"
 run_command "sudo systemctl enable libvirtd.service" "Enabling libvirtd service"
 run_command "sudo systemctl start libvirtd.service" "Starting libvirtd service"
 run_command "sudo sed -i '/^#.*unix_sock_group = "libvirt"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt group"
