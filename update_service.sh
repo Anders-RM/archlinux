@@ -29,12 +29,12 @@ log() {
 
 # Update pacman packages
 log "Starting pacman update..."
-sudo pacman -Syu --noconfirm | tee -a \$LOGFILE
+sudo pacman -Syyu --noconfirm | tee -a \$LOGFILE
 log "Pacman update completed."
 
 # Update AUR packages
 log "Starting yay update..."
-yay -Syu --noconfirm | tee -a \$LOGFILE
+yay -Syyu --noconfirm | tee -a \$LOGFILE
 log "Yay update completed."
 
 # Update Flatpak packages
