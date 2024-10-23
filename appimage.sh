@@ -58,6 +58,7 @@ run_command "ln -s $HOME/filen $HOME/Desktop/Filen" "Creating desktop shortcut"
 log "Filen AppImage installed successfully"
 konsole -e gio launch /usr/share/applications/filen-desktop.desktop &
 wait $!
+
 log "Filen launched successfully"
 
 exit 0
