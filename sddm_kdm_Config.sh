@@ -131,13 +131,15 @@ update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Config
 log "Script completed successfully."
 #add trashcan to desktop
 log "Adding Trash to Desktop"
-sudo tee "$HOME/Desktop" > /dev/null <<EOLT
+sudo tee "$HOME/Desktop/Trash.desktop" > /dev/null <<EOLT
 [Desktop Entry]
-Type=Application
 Name=Trash
-Exec=kioclient5 trash:/ 
-Icon=trashcan
-Terminal=false
+Comment=Contains removed files
+Icon=user-trash-full
+EmptyIcon=user-trash
+Type=Link
+URL=trash:/
+OnlyShowIn=KDE;
 EOLT
 
 exit 0
