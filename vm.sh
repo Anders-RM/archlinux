@@ -23,12 +23,20 @@ run_command() {
     fi
 }
 
-run_command "sudo pacman -Syyu --noconfirm" "Updating system"
-run_command "sudo pacman -S qemu-full virt-manager virt-viewer dnsmasq bridge-utils libguestfs ebtables vde2 openbsd-netcat" "Installing VM packages"
-run_command "sudo systemctl enable libvirtd.service" "Enabling libvirtd service"
-run_command "sudo systemctl start libvirtd.service" "Starting libvirtd service"
-run_command "sudo sed -i '/^#.*unix_sock_group = "libvirt"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt group"
-run_command "sudo sed -i '/^#.*unix_sock_rw_perms = "0770"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt permissions"
-run_command "sudo usermod -aG libvirt $USER" "Adding user to libvirt group"
-run_command "sudo systemctl restart libvirtd.service" "Restarting libvirtd service"
+# Check if the CPU supports virtualization
+if [ "$(grep -Ec '(vmx|svm)' /proc/cpuinfo)" -gt 0 ]; then
+    log "Virtualization Enabled"
+    run_command "sudo pacman -Syyu --noconfirm" "Updating system"
+    run_command "sudo pacman -S qemu-full virt-manager virt-viewer dnsmasq bridge-utils libguestfs ebtables vde2 openbsd-netcat" "Installing VM packages"
+    run_command "sudo systemctl enable libvirtd.service" "Enabling libvirtd service"
+    run_command "sudo systemctl start libvirtd.service" "Starting libvirtd service"
+    run_command "sudo sed -i '/^#.*unix_sock_group = \"libvirt\"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt group"
+    run_command "sudo sed -i '/^#.*unix_sock_rw_perms = \"0770\"/s/^#//' /etc/libvirt/libvirtd.conf" "Setting libvirt permissions"
+    run_command "sudo usermod -aG libvirt $USER" "Adding user to libvirt group"
+    run_command "sudo systemctl restart libvirtd.service" "Restarting libvirtd service"
+else
+    log "CPU does not support virtualization"
+    exit 1
+fi
+
 exit 0
