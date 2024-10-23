@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Function to display help message
+show_help() {
+    echo "Usage: ./Auto.sh [options]"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help    Show this help message and exit"
+    echo "  --novm        Skip VM-related scripts"
+    echo "  --nogaming    Skip gaming-related scripts"
+    # Add more options here as needed
+}
+
+# Check for help argument
+for arg in "$@"; do
+    case $arg in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+    esac
+done
+
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 LOG_FILE="$SCRIPT_DIR/auto.log"
@@ -32,9 +53,10 @@ EXECUTE_GAMING=true
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        --no-vm) EXECUTE_VM=false ;;
-        --no-gaming) EXECUTE_GAMING=false ;;
-        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+        --novm) EXECUTE_VM=false ;;
+        --nogaming) EXECUTE_GAMING=false ;;
+        -h|--help) show_help; exit 0 ;;
+        *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;
     esac
     shift
 done
@@ -53,7 +75,8 @@ if [ "$EXECUTE_VM" = true ]; then
     scripts+=("vm.sh")
 fi
 
-if [ "$EXECUTE_gaming" = true ]; then
+# Conditionally add gaming.sh to the list of scripts
+if [ "$EXECUTE_GAMING" = true ]; then
     scripts+=("gaming.sh")
 fi
 
