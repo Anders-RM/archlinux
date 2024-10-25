@@ -52,7 +52,7 @@ else
             ;;
         n|N ) 
             log "Installation aborted by user"
-            exit 1
+            exit 0
             ;;
         * ) 
             log "Invalid choice. Installation aborted."
