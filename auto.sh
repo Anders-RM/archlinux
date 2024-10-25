@@ -70,6 +70,7 @@ done
 
 # List of scripts to execute
 scripts=(
+    "test.sh"
     "app_install.sh"
     "sddm_kdm_Config.sh"
     "update_service.sh"

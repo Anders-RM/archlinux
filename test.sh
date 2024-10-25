@@ -2,7 +2,7 @@
 
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/template.log"
+LOG_FILE="$SCRIPT_DIR/test.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
@@ -25,4 +25,4 @@ run_command() {
 # remember to change the log file name
 # example command: run_command "konsole -e /usr/bin/bauh &" "Starting bauh"
 
-exit 0
+exit 1
