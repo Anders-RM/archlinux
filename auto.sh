@@ -39,9 +39,11 @@ execute_and_log() {
     local script="$1"
     log "Executing $script"
     
-    # Execute the script and capture its exit code
-    ./"$script" | tee -a "$LOG_FILE"
-    local exit_code=$?
+    # Execute the script in a subshell and capture its exit code
+    (
+        ./"$script"
+    ) | tee -a "$LOG_FILE"
+    local exit_code=${PIPESTATUS[0]}
     
     # Check if the exit code is non-zero
     if [ $exit_code -ne 0 ]; then
