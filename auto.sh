@@ -21,6 +21,20 @@ for arg in "$@"; do
     esac
 done
 
+# Default value for arguments
+EXECUTE_VM=true
+EXECUTE_GAMING=true
+
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -v|--novm) EXECUTE_VM=false ;;
+        -g|--nogaming) EXECUTE_GAMING=false ;;
+        -h|--help) show_help; exit 0 ;;
+        *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;
+    esac
+    shift
+done
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 LOG_FILE="$SCRIPT_DIR/auto.log"
@@ -53,22 +67,6 @@ execute_and_log() {
         log "$script executed successfully"
     fi
 }
-
-
-# Default value for arguments
-EXECUTE_VM=true
-EXECUTE_GAMING=true
-
-# Parse command-line arguments
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        -v|--novm) EXECUTE_VM=false ;;
-        -g|--nogaming) EXECUTE_GAMING=false ;;
-        -h|--help) show_help; exit 0 ;;
-        *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;
-    esac
-    shift
-done
 
 # List of scripts to execute
 scripts=(

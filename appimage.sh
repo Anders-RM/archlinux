@@ -50,6 +50,7 @@ log "Filen AppImage downloaded and extracted successfully"
 run_command "sudo sed -i 's|Exec=AppRun --no-sandbox %U|Exec=/opt/filen_appimage/AppRun %U|' \"$DESKTOP_FILE_PATH\"" "Modifying .desktop file"
 run_command "sudo mv \"$DESKTOP_FILE_PATH\" /usr/share/applications/filen-desktop.desktop" "Moving .desktop file to /usr/share/applications/"
 run_command "sudo cp /opt/filen_appimage/filen-desktop.png /usr/share/icons/filen-desktop.png" "Copying icon to /usr/share/icons"
+
 # Ensure the autostart directory exists
 mkdir -p "$HOME/.config/autostart"
 run_command "sudo cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"

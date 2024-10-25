@@ -109,16 +109,17 @@ run_command "lookandfeeltool --apply org.kde.breezedark.desktop" "KDE Plasma set
 # Update ksmserverrc for confirmLogout setting
 log "Updating shutdown confirmation setting"
 update_config_file "$CONFIRM_LOGOUT" "confirmLogout" "false" "General"
-
 update_config_file "$CONFIRM_LOGOUT" "loginMode" "emptySession" "General"
 
 # Update NumLock setting in kcminputrc
 log "Updating NumLock setting"
 update_config_file "$NUM_LOCK" "NumLock" "0" "Keyboard"
 log "NumLock on startup set to off."
+
 # Update or add specific settings in krunnerrc
 log "Updating KRunner settings"
 update_config_file "$KRUNDER_CONFIG_FILE" "FreeFloating" "true" "General"
+
 # Update or add specific settings in dolphinrc
 log "Updating Dolphin settings"
 update_config_file "$DOLPON_CONFIG_FILE" "HomeUrl" "file://$HOME" "General"
@@ -129,6 +130,7 @@ update_config_file "$DOLPON_CONFIG_FILE" "RememberOpenedTabs" "false" "General"
 log "Unpinning apps from task manager"
 update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 log "Script completed successfully."
+
 #add trashcan to desktop
 log "Adding Trash to Desktop"
 sudo tee "$HOME/Desktop/Trash.desktop" > /dev/null <<EOLT
