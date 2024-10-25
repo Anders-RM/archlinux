@@ -34,7 +34,7 @@ urls=(
     "https://lutris.net/games/rockstar-games-launcher/"
 )
 
-for url in "${urls[@]}"; then
+for url in "${urls[@]}"; do
     xdg-open "$url"
     log "Opened $url in the browser"
     read -p "Press [Enter] after closing the browser window for $url"
