@@ -38,13 +38,20 @@ log() {
 execute_and_log() {
     local script="$1"
     log "Executing $script"
-    if ./"$script" | tee -a "$LOG_FILE"; then
-        log "$script executed successfully"
+    
+    # Execute the script and capture its exit code
+    ./"$script" | tee -a "$LOG_FILE"
+    local exit_code=$?
+    
+    # Check if the exit code is non-zero
+    if [ $exit_code -ne 0 ]; then
+        log "Error executing $script (exit code: $exit_code)"
+        exit $exit_code
     else
-        log "Error executing $script"
-        exit 1
+        log "$script executed successfully"
     fi
 }
+
 
 # Default value for arguments
 EXECUTE_VM=true
