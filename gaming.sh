@@ -25,7 +25,7 @@ run_command() {
 
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 run_command "sudo pacman -S lutris steam --noconfirm" "Installing gaming packages"
-# Open URLs in the default web browser
+# Open URLs in the default web browser and wait for the browser to close
 urls=(
     "https://lutris.net/games/ea-app/"
     "https://lutris.net/games/epic-games-store/"
@@ -37,5 +37,6 @@ urls=(
 for url in "${urls[@]}"; then
     xdg-open "$url"
     log "Opened $url in the browser"
+    read -p "Press [Enter] after closing the browser window for $url"
 done
 exit 0
