@@ -22,7 +22,20 @@ run_command() {
         exit 1
     fi
 }
-# remember to change the log file name
-# example command: run_command "konsole -e /usr/bin/bauh &" "Starting bauh"
 
+run_command "sudo pacman -Syyu --noconfirm" "Updating system"
+run_command "sudo pacman -S lutris steam --noconfirm" "Installing gaming packages"
+# Open URLs in the default web browser
+urls=(
+    "https://lutris.net/games/ea-app/"
+    "https://lutris.net/games/epic-games-store/"
+    "https://lutris.net/games/gog-galaxy/"
+    "https://lutris.net/games/ubisoft-connect/"
+    "https://lutris.net/games/rockstar-games-launcher/"
+)
+
+for url in "${urls[@]}"; then
+    xdg-open "$url"
+    log "Opened $url in the browser"
+done
 exit 0
