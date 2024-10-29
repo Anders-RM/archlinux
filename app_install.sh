@@ -27,7 +27,7 @@ run_command() {
 pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin")
 cloneRepos=("https://aur.archlinux.org/yay.git")
 repoDirs=("yay")
-yayId=("snapd" "bauh" "1password" "brave-bin")
+yayId=("snapd" "bauh" "1password")
 flatpakId=("")
 snapId=()
 
