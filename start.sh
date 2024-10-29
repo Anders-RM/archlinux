@@ -2,7 +2,7 @@
 
 # Function to display help message
 show_help() {
-    echo "Usage: ./Auto.sh [options]"
+    echo "Usage: ./start.sh [options]"
     echo ""
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
@@ -37,7 +37,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/auto.log"
+LOG_FILE="$SCRIPT_DIR/start.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
