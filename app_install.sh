@@ -64,7 +64,7 @@ done
 # Install packages for yay
 if [ ${#yayId[@]} -gt 0 ]; then
     log "Installing packages with yay"
-    run_command "yay -Syu --noconfirm ${yayId[*]}" "Yay package installation"
+    run_command "yay -Syu --noconfirm ${yayId[*]}" "$yayId installation"
 fi
 
 # Enable and configure Snap
@@ -75,7 +75,7 @@ run_command "sudo ln -sf /var/lib/snapd/snap /snap" "Linking snapd"
 # Install packages for flatpak
 if [ ${#flatpakId[@]} -gt 0 ]; then
     log "Installing packages with flatpak"
-    run_command "flatpak install flathub -y ${flatpakId[*]}" "Flatpak package installation"
+    run_command "flatpak install flathub -y ${flatpakId[*]}" "$flatpakId package installation"
 fi
 
 # Install packages from snap
