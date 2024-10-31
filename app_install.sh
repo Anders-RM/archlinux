@@ -24,7 +24,7 @@ run_command() {
 }
 
 # Define packages
-pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin")
+pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "firefox")
 cloneRepos=("https://aur.archlinux.org/yay.git")
 repoDirs=("yay")
 yayId=("snapd" "bauh" "1password""brave-bin")
