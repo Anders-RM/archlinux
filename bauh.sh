@@ -25,7 +25,7 @@ run_command() {
 
 # https://github.com/vinifmor/bauh
 # start by bauh
-run_command "gio launch /usr/bin/bauh; exec bash &" "Launching Filen"
+run_command "/usr/bin/bauh; exec bash &" "Launching Filen"
 wait $!
 
 UI_CONFIG=$HOME/.config/bauh/config.yml
