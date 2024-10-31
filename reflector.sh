@@ -32,5 +32,7 @@ sudo sed -i 's/^--country.*$/  --country DE,SE,DK/' "$REFLECTOR_CONF"
 sudo sed -i 's/^--sort.*$/--sort rate/' "$REFLECTOR_CONF"
 
 log "Modified reflector configuration"
+run_command "sudo systemctl enable --now reflector.timer" "Enabling and starting reflector timer"
+run_command "sudo systemctl enable --now reflector.service" "Enabling and starting reflector service"
 
 exit 0
