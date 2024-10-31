@@ -39,9 +39,9 @@ log "Extracting Filen AppImage"
 run_command "\"$APPIMAGE_FILE\" --appimage-extract" "Extracting Filen AppImage"
 
 log "Moving extracted files to $EXTRACT_DIR"
-run_command "mv squashfs-root \"$EXTRACT_DIR\"" "Moving extracted files"
+run_command "mv -f squashfs-root \"$EXTRACT_DIR\"" "Forcing move of extracted files"
 
-run_command "sudo mv $EXTRACT_DIR /opt/" "Moving extracted files to /opt/"
+run_command "sudo mv -f $EXTRACT_DIR /opt/" "Forcing move of extracted files to /opt/"
 run_command "sudo chmod 775 /opt/filen_appimage/" "Changing permissions"
 run_command "sudo chown root:root /opt/filen_appimage/" "Changing ownership"
 log "Filen AppImage downloaded and extracted successfully"
