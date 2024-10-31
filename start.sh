@@ -75,6 +75,7 @@ scripts=(
     "update_service.sh"
     "appimage.sh"
     "bauh.sh"
+    "reflector.sh"
 )
 
 # Conditionally add vm.sh to the list of scripts

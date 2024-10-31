@@ -1,1 +1,2 @@
 add gaming config
+add Reflector config
