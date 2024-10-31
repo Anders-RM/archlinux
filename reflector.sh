@@ -26,6 +26,11 @@ run_command() {
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 run_command "sudo pacman -S reflector --noconfirm" "Installing reflector"
 
+# Modify the reflector configuration file
+REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
+sudo sed -i 's/^--country.*$/  --country DE,SE,DK/' "$REFLECTOR_CONF"
+sudo sed -i 's/^--sort.*$/--sort rate/' "$REFLECTOR_CONF"
 
+log "Modified reflector configuration"
 
 exit 0
