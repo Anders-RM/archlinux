@@ -32,15 +32,15 @@ update_config_file() {
     if [ -f "$file_path" ]; then
         # If the setting already exists, update its value
         if grep -q "^$setting" "$file_path"; then
-            sed -i "s|^$setting .*|$setting $value|" "$file_path"
+            sudo sed -i "s|^$setting .*|$setting $value|" "$file_path"
         else
             # Append the setting at the end of the file if it doesn't exist
-            echo -e "\n$setting $value" >> "$file_path"
+            echo -e "\n$setting $value" | sudo tee -a "$file_path" > /dev/null
         fi
     else
         # Create the file and add the setting
-        mkdir -p "$(dirname "$file_path")"
-        echo -e "$setting $value" > "$file_path"
+        sudo mkdir -p "$(dirname "$file_path")"
+        echo -e "$setting $value" | sudo tee "$file_path" > /dev/null
     fi
     echo "$setting updated or added in $file_path"
 }
