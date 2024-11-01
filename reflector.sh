@@ -23,15 +23,40 @@ run_command() {
     fi
 }
 
+# Function to create or update a config file
+update_config_file() {
+    local file_path="$1"
+    local setting="$2"
+    local value="$3"
+
+    if [ -f "$file_path" ]; then
+        # If the setting already exists, update its value
+        if grep -q "^$setting" "$file_path"; then
+            sed -i "s|^$setting .*|$setting $value|" "$file_path"
+        else
+            # Append the setting at the end of the file if it doesn't exist
+            echo -e "\n$setting $value" >> "$file_path"
+        fi
+    else
+        # Create the file and add the setting
+        mkdir -p "$(dirname "$file_path")"
+        echo -e "$setting $value" > "$file_path"
+    fi
+    echo "$setting updated or added in $file_path"
+}
+
+
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 run_command "sudo pacman -S reflector --noconfirm" "Installing reflector"
 
 # Modify the reflector configuration file
 REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
-sudo sed -i 's/^--country.*$/  --country DE,SE,DK/' "$REFLECTOR_CONF"
-sudo sed -i 's/^--sort.*$/--sort rate/' "$REFLECTOR_CONF"
+update_config_file "$REFLECTOR_CONF" "--sort" "rate"
+update_config_file "$REFLECTOR_CONF" "#--country" "--country DE,SE,DK"
+update_config_file "$REFLECTOR_CONF" "--latest" "10"
 
 log "Modified reflector configuration"
+
 run_command "sudo systemctl enable --now reflector.timer" "Enabling and starting reflector timer"
 run_command "sudo systemctl enable --now reflector.service" "Enabling and starting reflector service"
 
