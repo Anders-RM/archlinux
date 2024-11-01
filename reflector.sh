@@ -49,14 +49,14 @@ update_config_file() {
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 run_command "sudo pacman -S reflector --noconfirm" "Installing reflector"
 
-# Modify the reflector configuration file
+TIMER_CONF=/etc/systemd/system/timers.target.wants/reflector.timer
 REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
+
+# Modify the reflector configuration file
 update_config_file "$REFLECTOR_CONF" "--sort" "rate"
 update_config_file "$REFLECTOR_CONF" "--country" "DE,SE,DK"
 update_config_file "$REFLECTOR_CONF" "--latest" "10"
 log "Modified reflector configuration"
-
-TIMER_CONF=/etc/systemd/system/timers.target.wants/reflector.timer
 
 # Modify the reflector.timer configuration file
 run_command "sudo systemctl enable --now reflector.timer" "Enabling and starting reflector timer"
