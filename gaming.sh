@@ -23,6 +23,9 @@ run_command() {
     fi
 }
 
+log "Install firefox"
+sudo pacman -S --noconfirm firefox
+
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 run_command "sudo pacman -S lutris steam --noconfirm" "Installing gaming packages"
 # Open URLs in the default web browser and wait for the browser to close
@@ -39,4 +42,8 @@ for url in "${urls[@]}"; do
     log "Opened $url in the browser"
     read -p "Press [Enter] after closing the browser window for $url"
 done
+
+log "uninstalling firefox"
+sudo pacman -R --noconfirm firefox
+
 exit 0
