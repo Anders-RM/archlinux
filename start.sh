@@ -93,7 +93,7 @@ for script in "${scripts[@]}"; do
 done
 
 log "uninstalling firefox"
-sudo pacman -R firefox
+sudo pacman -R --noconfirm firefox
 
 # Final updates and reboot
 log "Rebooting system"
