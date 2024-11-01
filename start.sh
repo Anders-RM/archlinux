@@ -71,7 +71,7 @@ execute_and_log() {
 # List of scripts to execute
 scripts=(
     "app_install.sh"
-    "sddm_kdm_Config.sh"
+    "kdm_sddm_Config.sh"
     "update_service.sh"
     "appimage.sh"
     "bauh.sh"
