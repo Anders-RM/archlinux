@@ -47,8 +47,8 @@ fi
 
 # Clone and install software from AUR repositories
 for i in "${!cloneRepos[@]}"; do
-    repoUrl="${cloneRepos[$i]}"]
-    repoDir="${repoDirs[$i]}"]
+    repoUrl="${cloneRepos[$i]}"
+    repoDir="${repoDirs[$i]}"
     
     log "Cloning $repoDir repository"
     run_command "git clone \"$repoUrl\" \"$repoDir\"" "Cloning $repoDir"
