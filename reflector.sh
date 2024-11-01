@@ -52,7 +52,7 @@ run_command "sudo pacman -S reflector --noconfirm" "Installing reflector"
 # Modify the reflector configuration file
 REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
 update_config_file "$REFLECTOR_CONF" "--sort" "rate"
-update_config_file "$REFLECTOR_CONF" "--country" "--country DE,SE,DK"
+update_config_file "$REFLECTOR_CONF" "--country" "DE,SE,DK"
 update_config_file "$REFLECTOR_CONF" "--latest" "10"
 
 log "Modified reflector configuration"
