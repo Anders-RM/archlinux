@@ -64,4 +64,6 @@ run_command "sudo systemctl enable --now reflector.service" "Enabling and starti
 
 run_command "sudo sed -i 's/^OnCalendar=weekly/OnCalendar=\*-*-* 18:00:00/' \"$TIMER_CONF\"" "Modified reflector.timer configuration"
 run_command "sudo systemctl daemon-reload" "Reloading systemd daemon"
+run_command "sudo systemctl restart reflector.timer" "Restarting reflector timer"
+
 exit 0
