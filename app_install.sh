@@ -87,6 +87,7 @@ for SId in "${snapId[@]}"; do
 done
 
 # Final setup for 1Password
+#run_command "gio launch /usr/share/applications/; exec bash &" "Launching Filen"
 echo "Setup 1Password: Enable SSH agent under the developer settings."
 read -p "Press any key to continue. . ."
 
