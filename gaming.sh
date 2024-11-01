@@ -40,8 +40,9 @@ urls=(
 for url in "${urls[@]}"; do
     xdg-open "$url"
     log "Opened $url in the browser"
-    read -p "Press [Enter] after closing the browser window for $url"
 done
+
+read -p "Press [Enter] after closing all browser windows"
 
 log "uninstalling firefox"
 sudo pacman -R --noconfirm firefox
