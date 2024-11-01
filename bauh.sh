@@ -24,10 +24,11 @@ run_command() {
 }
 
 # https://github.com/vinifmor/bauh
-# start by bauh
+# Start bauh application in a new konsole terminal
 run_command "konsole --noclose -e /bin/bash -c '/usr/bin/bauh; exec bash'" "Launching bauh"
 wait $!
 
+# Define configuration file paths
 UI_CONFIG=$HOME/.config/bauh/config.yml
 ARCH_CONFIG=$HOME/.config/bauh/arch.yml
 
@@ -49,6 +50,7 @@ log "Configuration updates completed."
 
 # Ensure the autostart directory exists
 mkdir -p "$HOME/.config/autostart"
+# Copy the bauh tray .desktop file to the autostart directory
 run_command "sudo cp /usr/share/applications/bauh_tray.desktop $HOME/.config/autostart/bauh_tray.desktop" "Copying .desktop file to autostart"
 
 exit 0

@@ -46,12 +46,15 @@ log "Flatpak update completed."
 log "Starting Snap update..."
 sudo snap refresh | tee -a \$LOGFILE
 log "Snap update completed."
-ks
+
+# Log completion of all updates
 log "All updates completed successfully."
 exit 0
 EOLU
 
+# Log the creation of the update script
 log "Configuration file created at update_script.sh"
+# Make the update script executable
 sudo chmod +x /usr/local/bin/update_script.sh
 
 # Create systemd service for the update script
@@ -71,9 +74,10 @@ TimeoutStopSec=1800
 WantedBy=halt.target reboot.target shutdown.target
 EOLS
 
+# Log the creation of the systemd service
 log "Configuration file created at update-script.service"
 
-# Reload systemd and enable the service
+# Reload systemd to apply the new service and enable it
 sudo systemctl daemon-reload
 sudo systemctl enable update-script.service
 

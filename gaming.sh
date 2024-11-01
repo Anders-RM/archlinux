@@ -23,10 +23,13 @@ run_command() {
     fi
 }
 
-#run_command "sudo pacman -S --noconfirm firefox" "Installing firefox"
+# Update the system package database and upgrade all packages
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
+
+# Install Lutris and Steam gaming packages
 run_command "sudo pacman -S lutris steam --noconfirm" "Installing gaming packages"
-# Open URLs in the default web browser and wait for the browser to close
+
+# Define an array of URLs to open in the default web browser
 urls=(
     "https://lutris.net/games/ea-app/"
     "https://lutris.net/games/epic-games-store/"
@@ -35,14 +38,14 @@ urls=(
     "https://lutris.net/games/rockstar-games-launcher/"
 )
 
+# Loop through each URL, open it in the default web browser, and log the action
 for url in "${urls[@]}"; do
     xdg-open "$url"
     log "Opened $url in the browser"
 done
 
+# Prompt the user to press Enter after closing all browser windows
 read -p "Press [Enter] after closing all browser windows"
 
-# Uninstall Firefox
-#run_command "sudo pacman -R --noconfirm firefox" "Uninstalling firefox"
-
+# Exit the script successfully
 exit 0

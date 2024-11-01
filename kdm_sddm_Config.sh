@@ -75,7 +75,6 @@ UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 KRUNDER_CONFIG_FILE="$HOME/.config/krunnerrc"
 DOLPON_CONFIG_FILE="$HOME/.config/dolphinrc"
 
-
 # Set system locale
 log "Setting locale to English Denmark"
 run_command "sudo localectl set-locale LANG=en_DK.UTF-8" "Locale setup"
@@ -131,7 +130,7 @@ log "Unpinning apps from task manager"
 update_complex_section "$UNPIN_CONFIG_FILE" "Containments][2][Applets][5][Configuration][General]" "launchers=preferred://browser"
 log "Script completed successfully."
 
-#add trashcan to desktop
+# Add trashcan to desktop
 log "Adding Trash to Desktop"
 sudo tee "$HOME/Desktop/Trash.desktop" > /dev/null <<EOLT
 [Desktop Entry]

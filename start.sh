@@ -28,13 +28,14 @@ EXECUTE_GAMING=true
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -v|--novm) EXECUTE_VM=false ;;
-        -g|--nogaming) EXECUTE_GAMING=false ;;
-        -h|--help) show_help; exit 0 ;;
-        *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;
+        -v|--novm) EXECUTE_VM=false ;;  # Disable VM-related scripts
+        -g|--nogaming) EXECUTE_GAMING=false ;;  # Disable gaming-related scripts
+        -h|--help) show_help; exit 0 ;;  # Show help message and exit
+        *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;  # Handle unknown parameters
     esac
     shift
 done
+
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 LOG_FILE="$SCRIPT_DIR/start.log"
@@ -88,6 +89,7 @@ if [ "$EXECUTE_GAMING" = true ]; then
     scripts+=("gaming.sh")
 fi
 
+# Execute each script in the list
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
 done

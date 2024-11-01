@@ -45,25 +45,33 @@ update_config_file() {
     echo "$setting updated or added in $file_path"
 }
 
-
+# Update the system package database and upgrade all packages
 run_command "sudo pacman -Syyu --noconfirm" "Updating system"
+
+# Install the reflector package
 run_command "sudo pacman -S reflector --noconfirm" "Installing reflector"
 
+# Define the paths for the reflector timer and configuration files
 TIMER_CONF=/etc/systemd/system/timers.target.wants/reflector.timer
 REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
 
-# Modify the reflector configuration file
+# Modify the reflector configuration file to sort by rate, select specific countries, and limit to the latest 10 mirrors
 update_config_file "$REFLECTOR_CONF" "--sort" "rate"
 update_config_file "$REFLECTOR_CONF" "--country" "DE,SE,DK"
 update_config_file "$REFLECTOR_CONF" "--latest" "10"
 log "Modified reflector configuration"
 
-# Modify the reflector.timer configuration file
+# Enable and start the reflector timer and service
 run_command "sudo systemctl enable --now reflector.timer" "Enabling and starting reflector timer"
 run_command "sudo systemctl enable --now reflector.service" "Enabling and starting reflector service"
 
+# Modify the reflector.timer configuration to run daily at 18:00
 run_command "sudo sed -i 's/^OnCalendar=weekly/OnCalendar=\*-*-* 18:00:00/' \"$TIMER_CONF\"" "Modified reflector.timer configuration"
+
+# Reload the systemd daemon to apply changes
 run_command "sudo systemctl daemon-reload" "Reloading systemd daemon"
+
+# Restart the reflector timer to apply the new schedule
 run_command "sudo systemctl restart reflector.timer" "Restarting reflector timer"
 
 exit 0
