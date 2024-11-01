@@ -90,8 +90,5 @@ done
 echo "Setup 1Password: Enable SSH agent under the developer settings."
 run_command "konsole --noclose -e bash -c 'gio launch /usr/share/applications/1password.desktop; exec bash'" "Launching 1password"
 wait $!
-read -p "Press enter to continue"
-log "Killing 1Password"
-run_command "killall 1password" "Killing 1Password"
 
 exit 0
