@@ -24,7 +24,7 @@ run_command() {
 }
 
 # Define package lists
-pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin")  # Packages for pacman
+pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "fastfetch")  # Packages for pacman
 cloneRepos=("https://aur.archlinux.org/yay.git")       # Repositories to clone (for example, yay AUR helper)
 repoDirs=("yay")                                       # Directories corresponding to each repository
 yayId=("snapd" "bauh" "1password" "visual-studio-code-bin" "brave-bin") # Packages for yay (AUR packages)
