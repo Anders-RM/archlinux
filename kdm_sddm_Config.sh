@@ -2,7 +2,7 @@
 
 # Define the script directory and log file
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/sddm_kdm_Config.log"
+LOG_FILE="$SCRIPT_DIR/kdm_sddm_Config.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
