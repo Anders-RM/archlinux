@@ -23,16 +23,17 @@ run_command() {
     fi
 }
 
+TEMP_DIR=~/.temp/appimage
 APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
-APPIMAGE_FILE="$SCRIPT_DIR/filen_x86_64.AppImage"
-EXTRACT_DIR="$SCRIPT_DIR/filen_appimage"
+APPIMAGE_FILE="$TEMP_DIR/filen_x86_64.AppImage"
+EXTRACT_DIR="$TEMP_DIR/filen_appimage"
 INSTALL_DIR="/opt/filen_appimage"
 DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
 
 # Function to check if an update is needed
 check_for_update() {
     # Download latest version to a temporary file to compare versions
-    TEMP_APPIMAGE="$SCRIPT_DIR/temp_filen_x86_64.AppImage"
+    TEMP_APPIMAGE="$TEMP_DIR/temp_filen_x86_64.AppImage"
     log "Checking for updates..."
     curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
@@ -66,7 +67,7 @@ fi
 
 # Extract the new AppImage
 log "Extracting Filen AppImage"
-run_command "\"$APPIMAGE_FILE\" --appimage-extract" "Extracting Filen AppImage"
+run_command "$APPIMAGE_FILE --appimage-extract" "Extracting Filen AppImage"
 
 # Move the extracted files to /opt
 log "Moving extracted files to $INSTALL_DIR"
