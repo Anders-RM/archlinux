@@ -12,50 +12,19 @@ touch "$LOG_FILE"
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
-
-# Create the update script
-sudo tee "/usr/local/bin/update_script.sh" > /dev/null <<EOLU
-#!/bin/bash
-
-LOGFILE="/var/log/update_script.log"
-
-# Ensure the log file exists
-touch \$LOGFILE
-
-# Log function
-log() {
-    echo "\$(date '+%Y-%m-%d %H:%M:%S') - \$1" | tee -a \$LOGFILE
+run_command() {
+    if eval "$1"; then
+        log "$2 succeeded"
+    else
+        log "$2 failed"
+        exit 1
+    fi
 }
 
-# Update pacman packages
-log "Starting pacman update..."
-sudo pacman -Syyu --noconfirm | tee -a \$LOGFILE
-log "Pacman update completed."
 
-# Update AUR packages
-log "Starting yay update..."
-yay -Syyu --noconfirm | tee -a \$LOGFILE
-log "Yay update completed."
+run_command "sudo mv \"$INSTALL_DIR\"/update_service.sh /usr/local/bin/update_script.sh" "Moving update script to /usr/local/bin"
 
-# Update Flatpak packages
-log "Starting Flatpak update..."
-flatpak update -y | tee -a \$LOGFILE
-log "Flatpak update completed."
-
-# Update Snap packages
-log "Starting Snap update..."
-sudo snap refresh | tee -a \$LOGFILE
-log "Snap update completed."
-
-# Log completion of all updates
-log "All updates completed successfully."
-exit 0
-EOLU
-
-# Log the creation of the update script
-log "Configuration file created at update_script.sh"
-# Make the update script executable
-sudo chmod +x /usr/local/bin/update_script.sh
+run_command "sudo chmod +x /usr/local/bin/update_script.sh" "Making update script executable"
 
 # Create systemd service for the update script
 sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOLS
@@ -78,7 +47,7 @@ EOLS
 log "Configuration file created at update-script.service"
 
 # Reload systemd to apply the new service and enable it
-sudo systemctl daemon-reload
-sudo systemctl enable update-script.service
+run_command "sudo systemctl daemon-reload" "Reloading systemd"
+run_command "sudo systemctl enable update-script.service" "Enabling update-script service"
 
 exit 0

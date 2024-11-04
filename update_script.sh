@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# Define the script directory and log file
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/AppImage.log"
+LOGFILE="/var/log/update_script.log"
 
 # Ensure the log file exists
-mkdir -p "$(dirname "$LOG_FILE")"
-touch "$LOG_FILE"
+touch "$LOGFILE"
 
-# Logging function
+# Log function
 log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
 }
 
 # General function to run commands and log output
@@ -22,17 +19,40 @@ run_command() {
         exit 1
     fi
 }
+# Update pacman packages
+log "Starting pacman update..."
+run_command "sudo pacman -Syyu --noconfirm" "Pacman update"
+log "Pacman update completed."
 
+# Update AUR packages
+log "Starting yay update..."
+run_command "yay -Syyu --noconfirm" "Yay update"
+log "Yay update completed."
+
+# Update Flatpak packages
+log "Starting Flatpak update..."
+flatpak update -y 
+log "Flatpak update completed."
+
+# Update Snap packages
+log "Starting Snap update..."
+run_command "sudo snap refresh" "Snap update"
+log "Snap update completed."
+
+# Log completion of all updates
+log "All updates completed successfully."
+
+TEMP_DIR=~/.temp/appimage
 APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
-APPIMAGE_FILE="$SCRIPT_DIR/filen_x86_64.AppImage"
-EXTRACT_DIR="$SCRIPT_DIR/filen_appimage"
+APPIMAGE_FILE="$TEMP_DIR/filen_x86_64.AppImage"
+EXTRACT_DIR="$TEMP_DIR/filen_appimage"
 INSTALL_DIR="/opt/filen_appimage"
 DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
 
 # Function to check if an update is needed
 check_for_update() {
     # Download latest version to a temporary file to compare versions
-    TEMP_APPIMAGE="$SCRIPT_DIR/temp_filen_x86_64.AppImage"
+    TEMP_APPIMAGE="$TEMP_DIR/temp_filen_x86_64.AppImage"
     log "Checking for updates..."
     curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
@@ -66,7 +86,7 @@ fi
 
 # Extract the new AppImage
 log "Extracting Filen AppImage"
-run_command "\"$APPIMAGE_FILE\" --appimage-extract" "Extracting Filen AppImage"
+run_command "$APPIMAGE_FILE --appimage-extract" "Extracting Filen AppImage"
 
 # Move the extracted files to /opt
 log "Moving extracted files to $INSTALL_DIR"
