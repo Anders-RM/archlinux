@@ -23,17 +23,18 @@ run_command() {
     fi
 }
 
-TEMP_DIR=~/.temp/appimage
+TEMP_DIR=~/.temp
+APPIMAGE_LOCATION="$TEMP_DIR/appimage"
 APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
-APPIMAGE_FILE="$TEMP_DIR/filen_x86_64.AppImage"
-EXTRACT_DIR="$TEMP_DIR/filen_appimage"
+APPIMAGE_FILE="$APPIMAGE_LOCATION/filen_x86_64.AppImage"
+EXTRACT_DIR="$APPIMAGE_LOCATION/filen_appimage"
 INSTALL_DIR="/opt/filen_appimage"
 DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
 
 # Function to check if an update is needed
 check_for_update() {
     # Download latest version to a temporary file to compare versions
-    TEMP_APPIMAGE="$TEMP_DIR/temp_filen_x86_64.AppImage"
+    TEMP_APPIMAGE="$APPIMAGE_LOCATION/temp_filen_x86_64.AppImage"
     log "Checking for updates..."
     curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
@@ -52,7 +53,8 @@ check_for_update() {
     fi
 }
 
-run_command "mkdir -p $TEMP_DIR" "Creating temporary directory"
+run_command "mkdir -p $APPIMAGE_LOCATION" "Creating temporary directory"
+
 # Run the update check function
 check_for_update
 
@@ -93,6 +95,7 @@ run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating desktop s
 
 log "Filen AppImage updated and installed successfully"
 
+run_command "rm -rf $APPIMAGE_LOCATION" "Removing temporary directory"
 # Launch the Filen application
 run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
