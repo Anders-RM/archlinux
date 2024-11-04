@@ -71,6 +71,8 @@ check_for_update() {
     fi
 }
 
+run_command "mkdir -p $TEMP_DIR" "Creating temporary directory"
+
 # Run the update check function
 check_for_update
 
