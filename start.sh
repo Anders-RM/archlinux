@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Function to display help message
-show_help() {
+# arguments
+ # Function to display help message
+ show_help() {
     echo "Usage: ./start.sh [options]"
     echo ""
     echo "Options:"
@@ -9,24 +10,24 @@ show_help() {
     echo "  -v, --novm        Skip VM-related scripts"
     echo "  -g, --nogaming    Skip gaming-related scripts"
     # Add more options here as needed
-}
+ }
 
-# Check for help argument
-for arg in "$@"; do
+ # Check for help argument
+ for arg in "$@"; do
     case $arg in
         -h|--help)
             show_help
             exit 0
             ;;
     esac
-done
+ done
 
-# Default value for arguments
-EXECUTE_VM=true
-EXECUTE_GAMING=true
+ # Default value for arguments
+ EXECUTE_VM=true
+ EXECUTE_GAMING=true
 
-# Parse command-line arguments
-while [[ "$#" -gt 0 ]]; do
+ # Parse command-line arguments
+ while [[ "$#" -gt 0 ]]; do
     case $1 in
         -v|--novm) EXECUTE_VM=false ;;  # Disable VM-related scripts
         -g|--nogaming) EXECUTE_GAMING=false ;;  # Disable gaming-related scripts
@@ -34,15 +35,15 @@ while [[ "$#" -gt 0 ]]; do
         *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;  # Handle unknown parameters
     esac
     shift
-done
+ done
 
-# Define the script directory and log file
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/start.log"
+ # Define the script directory and log file
+ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+ LOG_FILE="$SCRIPT_DIR/start.log"
 
-# Ensure the log file exists
-mkdir -p "$(dirname "$LOG_FILE")"
-touch "$LOG_FILE"
+ # Ensure the log file exists
+ mkdir -p "$(dirname "$LOG_FILE")"
+ touch "$LOG_FILE"
 
 # Logging function
 log() {
