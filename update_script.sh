@@ -7,36 +7,29 @@ LOG_FILE="$SCRIPT_DIR/update_script.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 sudo touch "$LOG_FILE"
 
-# Log function
-log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
-}
-
-
 # Update pacman packages
-#log "Starting pacman update..."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting pacman update..." | tee -a "$LOG_FILE"
 sudo pacman -Syyu --noconfirm
-#log "Pacman update completed."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Pacman update completed." | tee -a "$LOG_FILE"
 
 # Update AUR packages
-#log "Starting yay update..."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting yay update..." | tee -a "$LOG_FILE"
 yay -Syyu --noconfirm
-#log "Yay update completed."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Yay update completed." | tee -a "$LOG_FILE"
 
 # Update Flatpak packages
-#log "Starting Flatpak update..."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting Flatpak update..." | tee -a "$LOG_FILE"
 flatpak update -y 
-#log "Flatpak update completed."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Flatpak update completed." | tee -a "$LOG_FILE"
 
 # Update Snap packages
-#log "Starting Snap update..."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting Snap update..." | tee -a "$LOG_FILE"
 sudo snap refresh
-#log "Snap update completed."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Snap update completed." | tee -a "$LOG_FILE"
 
 # log completion of all updates
-#log "All updates completed successfully."
+echo "$(date '+%Y-%m-%d %H:%M:%S') - All updates completed successfully." | tee -a "$LOG_FILE"
 
 ./appimage.sh
-
 
 exit 0
