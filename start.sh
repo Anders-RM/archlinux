@@ -74,10 +74,10 @@ execute_and_log() {
 scripts=(
     "app_install.sh"
     "kdm_sddm_Config.sh"
-    "update_service.sh"
     "appimage.sh"
     "bauh.sh"
     "reflector.sh"
+    "update_service.sh"
 )
 
 # Conditionally add vm.sh to the list of scripts
