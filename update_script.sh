@@ -1,7 +1,11 @@
 #!/bin/bash
+# Define the script directory and log file
+LOG_DIR="/var/log/"
+LOG_FILE="$LOG_DIR/update_script.log"
 
-LOGFILE="/var/log/update_script.log"
-
+# Ensure the log file exists
+mkdir -p "$(dirname "$LOG_FILE")"
+touch "$LOG_FILE"
 # Ensure the log file exists
 touch "$LOGFILE"
 
