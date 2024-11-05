@@ -6,12 +6,10 @@ LOG_FILE="$LOG_DIR/update_script.log"
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
 touch "$LOG_FILE"
-# Ensure the log file exists
-touch "$LOGFILE"
 
 # Log function
 log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
+    sudo echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
 }
 
 # General function to run commands and log output
