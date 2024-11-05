@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # arguments
- # Function to display help message
- show_help() {
+# Function to display help message
+show_help() {
     echo "Usage: ./start.sh [options]"
     echo ""
     echo "Options:"
@@ -10,32 +10,36 @@
     echo "  -v, --novm        Skip VM-related scripts"
     echo "  -g, --nogaming    Skip gaming-related scripts"
     # Add more options here as needed
- }
+}
 
- # Check for help argument
- for arg in "$@"; do
+# Check for help argument
+for arg in "$@"; do
     case $arg in
         -h|--help)
             show_help
             exit 0
             ;;
     esac
- done
+done
 
- # Default value for arguments
- EXECUTE_VM=true
- EXECUTE_GAMING=true
+# Default value for arguments
+EXECUTE_VM=true
+EXECUTE_GAMING=true
 
- # Parse command-line arguments
- while [[ "$#" -gt 0 ]]; do
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
     case $1 in
         -v|--novm) EXECUTE_VM=false ;;  # Disable VM-related scripts
         -g|--nogaming) EXECUTE_GAMING=false ;;  # Disable gaming-related scripts
         -h|--help) show_help; exit 0 ;;  # Show help message and exit
+        -*)
+            if [[ $1 =~ v ]]; then EXECUTE_VM=false; fi
+            if [[ $1 =~ g ]]; then EXECUTE_GAMING=false; fi
+            ;;
         *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;  # Handle unknown parameters
     esac
     shift
- done
+done
 
  # Define the script directory and log file
  SCRIPT_DIR="$(dirname "$(realpath "$0")")"
