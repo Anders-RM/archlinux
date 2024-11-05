@@ -14,27 +14,27 @@ log() {
 
 
 # Update pacman packages
-log "Starting pacman update..."
+#log "Starting pacman update..."
 sudo pacman -Syyu --noconfirm
-log "Pacman update completed."
+#log "Pacman update completed."
 
 # Update AUR packages
-log "Starting yay update..."
+#log "Starting yay update..."
 yay -Syyu --noconfirm
-log "Yay update completed."
+#log "Yay update completed."
 
 # Update Flatpak packages
-log "Starting Flatpak update..."
+#log "Starting Flatpak update..."
 flatpak update -y 
-log "Flatpak update completed."
+#log "Flatpak update completed."
 
 # Update Snap packages
-log "Starting Snap update..."
+#log "Starting Snap update..."
 sudo snap refresh
-log "Snap update completed."
+#log "Snap update completed."
 
-# Log completion of all updates
-log "All updates completed successfully."
+# #log completion of all updates
+#log "All updates completed successfully."
 
 #run_command "./appimage.sh" "AppImage update"
 
