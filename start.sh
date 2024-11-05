@@ -94,6 +94,8 @@ if [ "$EXECUTE_GAMING" = true ]; then
     scripts+=("gaming.sh")
 fi
 
+run_command "chmod +x *.sh"
+
 # Execute each script in the list
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
