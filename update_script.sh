@@ -1,7 +1,7 @@
 #!/bin/bash
 # Define the script directory and log file
-LOG_DIR="/var/log/"
-LOG_FILE="$LOG_DIR/update_script.log"
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+LOG_FILE="$SCRIPT_DIR/update_script.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
@@ -21,29 +21,6 @@ run_command() {
         exit 1
     fi
 }
-
-execute_and_log() {
-    local script="$1"
-    log "Executing $script"
-    
-    # Execute the script in a subshell and capture its exit code
-    (
-        ./"$script"
-    ) | tee -a "$LOG_FILE"
-    local exit_code=${PIPESTATUS[0]}
-    
-    # Check if the exit code is non-zero
-    if [ $exit_code -ne 0 ]; then
-        log "Error executing $script (exit code: $exit_code)"
-        exit $exit_code
-    else
-        log "$script executed successfully"
-    fi
-}
-
-scripts=(
-    "appimage.sh"
-)
 
 # Update pacman packages
 log "Starting pacman update..."
@@ -68,8 +45,6 @@ log "Snap update completed."
 # Log completion of all updates
 log "All updates completed successfully."
 
-for script in "${scripts[@]}"; do
-    execute_and_log "$script"
-done
+run_command "./appimage.sh" "AppImage update"
 
 exit 0
