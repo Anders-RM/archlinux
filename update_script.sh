@@ -9,7 +9,7 @@ touch "$LOG_FILE"
 
 # Log function
 log() {
-    sudo echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
 }
 
 # General function to run commands and log output
@@ -44,7 +44,6 @@ execute_and_log() {
 scripts=(
     "appimage.sh"
 )
-
 
 # Update pacman packages
 log "Starting pacman update..."
