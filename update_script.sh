@@ -33,9 +33,10 @@ flatpak update -y
 sudo snap refresh
 #log "Snap update completed."
 
-# #log completion of all updates
+# log completion of all updates
 #log "All updates completed successfully."
 
-#run_command "./appimage.sh" "AppImage update"
+./appimage.sh
+
 
 exit 0
