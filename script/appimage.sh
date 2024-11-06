@@ -22,7 +22,14 @@ run_command() {
         exit 1
     fi
 }
-Home_Dir=/home/anders
+
+# Determine the home directory based on the user running the script
+if [ "$(id -u)" -eq 0]; then
+    Home_Dir=$(getent passwd 1000 | cut -d: -f6)
+else
+    Home_Dir=$HOME
+fi
+
 TEMP_DIR=$Home_Dir/.temp
 APPIMAGE_LOCATION="$TEMP_DIR/appimage"
 APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
