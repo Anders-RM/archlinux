@@ -46,18 +46,18 @@ curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
 if [ -f "$PACKAGE_JSON_PATH" ]; then
     CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
-    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract jq -r '.version' squashfs-root/resources/app/package.json)
+    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' squashfs-root/resources/app/package.json)
 
     if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
         rm "$TEMP_APPIMAGE"
         exit 0
     else
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Update found. Proceeding with update..." | tee -a "$LOG_FILE"
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - Update found. Proceeding with update..." | tee -a "$LOG_FILE"
         mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
     fi
 else
-echo "$(date '+%Y-%m-%d %H:%M:%S') - AppImage not found. Downloading new version." | tee -a "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - AppImage not found. Downloading new version." | tee -a "$LOG_FILE"
     mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
 fi
 
@@ -84,7 +84,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') - Filen AppImage downloaded and extracted suc
 
 # Update the .desktop file for the correct path and move to applications directory
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Updating .desktop file" | tee -a "$LOG_FILE"
-sudo sed -i 's|Exec=AppRun --no-sandbox %U|Exec=$INSTALL_DIR/AppRun %U|' "$INSTALL_DIR/filen-desktop.desktop"
+sudo sed -i "s|Exec=AppRun --no-sandbox %U|Exec=$INSTALL_DIR/AppRun %U|" "$INSTALL_DIR/filen-desktop.desktop"
 sudo mv "$INSTALL_DIR/filen-desktop.desktop" /usr/share/applications/filen-desktop.desktop
 sudo cp "$INSTALL_DIR/filen-desktop.png" /usr/share/icons/filen-desktop.png
 
