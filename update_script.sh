@@ -1,7 +1,7 @@
 #!/bin/bash
 # Define the script directory and log file
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-LOG_FILE="$SCRIPT_DIR/update_script.log"
+LOG_DIR="/var/log/filen"
+LOG_FILE="$LOG_DIR/update_script.log"
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"
