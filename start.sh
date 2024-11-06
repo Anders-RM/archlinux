@@ -101,7 +101,7 @@ log "Changing permissions of scripts"
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
 done
-
+read -p "Press enter to continue"
 # Final updates and reboot
 log "Rebooting system"
 sudo reboot | tee -a "$LOG_FILE"

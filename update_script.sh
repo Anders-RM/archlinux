@@ -14,6 +14,7 @@ APPIMAGE_FILE="$APPIMAGE_LOCATION/filen_x86_64.AppImage"
 EXTRACT_DIR="$APPIMAGE_LOCATION/filen_appimage"
 INSTALL_DIR="/opt/filen_appimage"
 DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
+PACKAGE_JSON_PATH="$INSTALL_DIR/resources/app/package.json"
 
 # Update pacman packages
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting pacman update..." | tee -a "$LOG_FILE"
@@ -35,7 +36,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting Snap update..." | tee -a "$LOG_FIL
 sudo snap refresh
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Snap update completed." | tee -a "$LOG_FILE"
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Creating temporary directory" | tee -a "$LOG_FILE"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Creating temporary directory for AppImage" | tee -a "$LOG_FILE"
 mkdir -p "$APPIMAGE_LOCATION"
 
 # Download latest version to a temporary file to compare versions
@@ -43,17 +44,20 @@ TEMP_APPIMAGE="$APPIMAGE_LOCATION/temp_filen_x86_64.AppImage"
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Checking for updates..." | tee -a "$LOG_FILE"
 curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
-if [ -f "$APPIMAGE_FILE" ]; then
-    if cmp -s "$APPIMAGE_FILE" "$TEMP_APPIMAGE"; then
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
+if [ -f "$PACKAGE_JSON_PATH" ]; then
+    CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
+    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' "$PACKAGE_JSON_PATH")
+
+    if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
         rm "$TEMP_APPIMAGE"
         exit 0
     else
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - Update found. Proceeding with update..." | tee -a "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Update found. Proceeding with update..." | tee -a "$LOG_FILE"
         mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
     fi
 else
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - AppImage not found. Downloading new version." | tee -a "$LOG_FILE"
+echo "$(date '+%Y-%m-%d %H:%M:%S') - AppImage not found. Downloading new version." | tee -a "$LOG_FILE"
     mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
 fi
 
@@ -96,9 +100,6 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') - Filen AppImage updated and installed succes
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Removing temporary directory" | tee -a "$LOG_FILE"
 rm -rf "$APPIMAGE_LOCATION"
-
-# Launch the Filen application
-gio launch /usr/share/applications/filen-desktop.desktop
 
 # log completion of all updates
 echo "$(date '+%Y-%m-%d %H:%M:%S') - All updates completed successfully." | tee -a "$LOG_FILE"

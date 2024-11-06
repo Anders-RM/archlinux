@@ -30,6 +30,7 @@ APPIMAGE_FILE="$APPIMAGE_LOCATION/filen_x86_64.AppImage"
 EXTRACT_DIR="$APPIMAGE_LOCATION/filen_appimage"
 INSTALL_DIR="/opt/filen_appimage"
 DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
+PACKAGE_JSON_PATH="$INSTALL_DIR/resources/app/package.json"
 
 # Function to check if an update is needed
 check_for_update() {
@@ -38,8 +39,11 @@ check_for_update() {
     log "Checking for updates..."
     curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
-    if [ -f "$APPIMAGE_FILE" ]; then
-        if cmp -s "$APPIMAGE_FILE" "$TEMP_APPIMAGE"; then
+    if [ -f "$PACKAGE_JSON_PATH" ]; then
+        CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
+        TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' "$PACKAGE_JSON_PATH")
+
+        if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
             log "No update available. The AppImage is already up-to-date."
             rm "$TEMP_APPIMAGE"
             exit 0
