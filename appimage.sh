@@ -41,7 +41,7 @@ check_for_update() {
 
     if [ -f "$PACKAGE_JSON_PATH" ]; then
         CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
-        TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' "$PACKAGE_JSON_PATH")
+        TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract jq -r '.version' squashfs-root/resources/app/package.json)
 
         if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
             log "No update available. The AppImage is already up-to-date."

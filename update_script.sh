@@ -46,7 +46,7 @@ curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
 
 if [ -f "$PACKAGE_JSON_PATH" ]; then
     CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
-    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' "$PACKAGE_JSON_PATH")
+    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract jq -r '.version' squashfs-root/resources/app/package.json)
 
     if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
