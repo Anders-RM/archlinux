@@ -22,8 +22,8 @@ run_command() {
         exit 1
     fi
 }
-
-TEMP_DIR=~/.temp
+Home_Dir=/home/anders
+TEMP_DIR=$Home_Dir/.temp
 APPIMAGE_LOCATION="$TEMP_DIR/appimage"
 APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
 APPIMAGE_FILE="$APPIMAGE_LOCATION/filen_x86_64.AppImage"
@@ -90,12 +90,12 @@ run_command "sudo mv \"$INSTALL_DIR/filen-desktop.desktop\" /usr/share/applicati
 run_command "sudo cp \"$INSTALL_DIR/filen-desktop.png\" /usr/share/icons/filen-desktop.png" "Copying icon to /usr/share/icons"
 
 # Set up autostart if not already configured
-mkdir -p "$HOME/.config/autostart"
-run_command "cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
+mkdir -p "$Home_Dir/.config/autostart"
+run_command "cp /usr/share/applications/filen-desktop.desktop $Home_Dir/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
 
 # Ensure user directory exists and create shortcut
-run_command "mkdir -p \"$HOME/filen\"" "Creating filen directory"
-run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating desktop shortcut"
+run_command "mkdir -p \"$Home_Dir/filen\"" "Creating filen directory"
+run_command "ln -sf \"$Home_Dir/filen\" \"$Home_Dir/Desktop/Filen\"" "Creating desktop shortcut"
 
 log "Filen AppImage updated and installed successfully"
 
