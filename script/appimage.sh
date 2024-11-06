@@ -24,7 +24,7 @@ run_command() {
 }
 
 # Determine the home directory based on the user running the script
-if [ "$(id -u)" -eq 0]; then
+if [ "$(id -u)" -eq 0 ]; then
     Home_Dir=$(getent passwd 1000 | cut -d: -f6)
 else
     Home_Dir=$HOME
@@ -109,10 +109,6 @@ log "Filen AppImage updated and installed successfully"
 run_command "rm -rf $APPIMAGE_LOCATION" "Removing temporary directory"
 
 # Launch the Filen application if not running as root
-if [ "$(id -u)" -ne 0 ]; then
-    run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
-else
-    log "Skipping application launch as the script is running as root"
-fi
+run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
 exit 0
