@@ -94,7 +94,7 @@ if [ "$EXECUTE_GAMING" = true ]; then
     scripts+=("gaming.sh")
 fi
 
-chmod +x *.sh
+chmod +x -R script
 log "Changing permissions of scripts"
 
 # Execute each script in the list
