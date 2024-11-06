@@ -28,7 +28,7 @@ run_command "sudo pacman -Syyu --noconfirm" "Updating system"
 
 # Install Lutris and Steam gaming packages
 run_command "sudo pacman -S lutris steam --noconfirm" "Installing gaming packages"
-run_command "yay -S protonup-qt" "Installing ProtonUp"
+run_command "yay -S --noconfirm protonup-qt" "Installing ProtonUp"
 
 # Define an array of URLs to open in the default web browser
 urls=(
