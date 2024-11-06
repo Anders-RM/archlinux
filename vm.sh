@@ -44,7 +44,8 @@ if [ "$(grep -Ec '(vmx|svm)' /proc/cpuinfo)" -gt 0 ]; then
 else
     log "Virtualization Disabled"
     # Prompt user to continue installation despite virtualization being disabled
-    read -p "Virtualization is disabled. Do you want to continue with the installation? (y/n): " choice
+    read -p "Virtualization is disabled. Do you want to continue with the installation? (y/n) [n]: " choice
+    choice=${choice:-n}
     case "$choice" in 
         y|Y ) 
             log "Continuing with installation"

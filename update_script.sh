@@ -1,107 +1,48 @@
 #!/bin/bash
+
 # Define the script directory and log file
-LOG_DIR="/var/log/filen"
-LOG_FILE="$LOG_DIR/update_script.log"
+SCRIPT_DIR="/usr/local/bin/update"  # Get the directory of the script
+LOG_FILE="$SCRIPT_DIR/template.log"         # Define the log file path
 
 # Ensure the log file exists
-mkdir -p "$(dirname "$LOG_FILE")"
-sudo touch "$LOG_FILE"
+mkdir -p "$(dirname "$LOG_FILE")"  # Create the directory for the log file if it doesn't exist
+touch "$LOG_FILE"                  # Create the log file if it doesn't exist
 
-TEMP_DIR=~/.temp
-APPIMAGE_LOCATION="$TEMP_DIR/appimage"
-APPIMAGE_URL="https://cdn.filen.io/desktop/release/filen_x86_64.AppImage"
-APPIMAGE_FILE="$APPIMAGE_LOCATION/filen_x86_64.AppImage"
-EXTRACT_DIR="$APPIMAGE_LOCATION/filen_appimage"
-INSTALL_DIR="/opt/filen_appimage"
-DESKTOP_FILE_PATH="$INSTALL_DIR/filen-desktop.desktop"
-PACKAGE_JSON_PATH="$INSTALL_DIR/resources/app/package.json"
+# Logging function
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"  # Log the message with a timestamp
+}
+
+# General function to run commands and log output
+run_command() {
+    if eval "$1"; then
+        log "$2 succeeded"  # Log success message if the command succeeds
+    else
+        log "$2 failed"     # Log failure message if the command fails
+        exit 1              # Exit the script with an error code
+    fi
+}
 
 # Update pacman packages
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting pacman update..." | tee -a "$LOG_FILE"
-sudo pacman -Syyu --noconfirm
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Pacman update completed." | tee -a "$LOG_FILE"
+log "Starting pacman update..."
+run_command "sudo pacman -Syyu --noconfirm" "Pacman update"
+log "Pacman update completed."
 
 # Update AUR packages
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting yay update..." | tee -a "$LOG_FILE"
-yay -Syyu --noconfirm
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Yay update completed." | tee -a "$LOG_FILE"
+log "Starting yay update..."
+run_command "yay -Syyu --noconfirm" "Yay update"
+log "Yay update completed."
 
 # Update Flatpak packages
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting Flatpak update..." | tee -a "$LOG_FILE"
-flatpak update -y 
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Flatpak update completed." | tee -a "$LOG_FILE"
+log "Starting Flatpak update..."
+run_command "flatpak update -y" "Flatpak update"
+log "Flatpak update completed."
 
 # Update Snap packages
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Starting Snap update..." | tee -a "$LOG_FILE"
-sudo snap refresh
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Snap update completed." | tee -a "$LOG_FILE"
+log "Starting Snap update..."
+run_command "sudo snap refresh" "Snap update"
+log "Snap update completed."
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Creating temporary directory for AppImage" | tee -a "$LOG_FILE"
-mkdir -p "$APPIMAGE_LOCATION"
-
-# Download latest version to a temporary file to compare versions
-TEMP_APPIMAGE="$APPIMAGE_LOCATION/temp_filen_x86_64.AppImage"
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Checking for updates..." | tee -a "$LOG_FILE"
-curl -L -o "$TEMP_APPIMAGE" "$APPIMAGE_URL" --silent --show-error
-
-if [ -f "$PACKAGE_JSON_PATH" ]; then
-    CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON_PATH")
-    TEMP_VERSION=$(./"$TEMP_APPIMAGE" --appimage-extract-and-run jq -r '.version' squashfs-root/resources/app/package.json)
-
-    if [ "$CURRENT_VERSION" == "$TEMP_VERSION" ]; then
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - No update available. The AppImage is already up-to-date." | tee -a "$LOG_FILE"
-        rm "$TEMP_APPIMAGE"
-        exit 0
-    else
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - Update found. Proceeding with update..." | tee -a "$LOG_FILE"
-        mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
-    fi
-else
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - AppImage not found. Downloading new version." | tee -a "$LOG_FILE"
-    mv "$TEMP_APPIMAGE" "$APPIMAGE_FILE"
-fi
-
-# Make the downloaded AppImage executable
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Making Filen AppImage executable" | tee -a "$LOG_FILE"
-chmod +x "$APPIMAGE_FILE"
-
-# Remove old installation if it exists
-if [ -d "$INSTALL_DIR" ]; then
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - Removing old installation at $INSTALL_DIR" | tee -a "$LOG_FILE"
-    sudo rm -rf "$INSTALL_DIR"
-fi
-
-# Extract the new AppImage
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Extracting Filen AppImage" | tee -a "$LOG_FILE"
-"$APPIMAGE_FILE" --appimage-extract
-
-# Move the extracted files to /opt
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Moving extracted files to $INSTALL_DIR" | tee -a "$LOG_FILE"
-sudo mv squashfs-root "$INSTALL_DIR"
-sudo chmod 775 "$INSTALL_DIR"
-sudo chown root:root "$INSTALL_DIR"
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Filen AppImage downloaded and extracted successfully" | tee -a "$LOG_FILE"
-
-# Update the .desktop file for the correct path and move to applications directory
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Updating .desktop file" | tee -a "$LOG_FILE"
-sudo sed -i "s|Exec=AppRun --no-sandbox %U|Exec=$INSTALL_DIR/AppRun %U|" "$INSTALL_DIR/filen-desktop.desktop"
-sudo mv "$INSTALL_DIR/filen-desktop.desktop" /usr/share/applications/filen-desktop.desktop
-sudo cp "$INSTALL_DIR/filen-desktop.png" /usr/share/icons/filen-desktop.png
-
-# Set up autostart if not already configured
-mkdir -p "$HOME/.config/autostart"
-cp /usr/share/applications/filen-desktop.desktop "$HOME/.config/autostart/filen-desktop.desktop"
-
-# Ensure user directory exists and create shortcut
-mkdir -p "$HOME/filen"
-ln -sf "$HOME/filen" "$HOME/Desktop/Filen"
-
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Filen AppImage updated and installed successfully" | tee -a "$LOG_FILE"
-
-echo "$(date '+%Y-%m-%d %H:%M:%S') - Removing temporary directory" | tee -a "$LOG_FILE"
-rm -rf "$APPIMAGE_LOCATION"
-
-# log completion of all updates
-echo "$(date '+%Y-%m-%d %H:%M:%S') - All updates completed successfully." | tee -a "$LOG_FILE"
+log "Creating temporary directory for AppImage"
 
 exit 0
