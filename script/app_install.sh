@@ -27,7 +27,7 @@ run_command() {
 pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "fastfetch" "jq")  # Packages for pacman
 cloneRepos=("https://aur.archlinux.org/yay.git")       # Repositories to clone (for example, yay AUR helper)
 repoDirs=("yay")                                       # Directories corresponding to each repository
-yayId=("snapd" "bauh" "1password" "visual-studio-code-bin" "brave-bin") # Packages for yay (AUR packages)
+yayId=("snapd" "bauh" "1password" "visual-studio-code-bin" "brave-bin" "filen-desktop-git") # Packages for yay (AUR packages)
 flatpakId=()                                           # Packages for flatpak (empty here but ready for addition)
 snapId=()                                              # Packages for snap (empty here but ready for addition)
 
@@ -87,6 +87,16 @@ for SId in "${snapId[@]}"; do
         run_command "sudo snap install --stable --classic \"$SId\"" "Snap package installation for $SId"
     fi
 done
+
+# Set up autostart if not already configured
+mkdir -p "$Home_Dir/.config/autostart"
+run_command "cp /usr/share/applications/filen-desktop.desktop $Home/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
+
+# Ensure user directory exists and create shortcut
+run_command "mkdir -p \"$Home/filen\"" "Creating filen directory"
+run_command "ln -sf \"$Home/filen\" \"$Home/Desktop/Filen\"" "Creating desktop shortcut"
+
+run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
 # Final setup for 1Password (user guidance for SSH agent setup)
 echo "Setup 1Password: Enable SSH agent under the developer settings."

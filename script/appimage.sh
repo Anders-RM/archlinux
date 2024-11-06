@@ -102,7 +102,6 @@ log "Filen AppImage updated and installed successfully"
 
 run_command "rm -rf $APPIMAGE_LOCATION" "Removing temporary directory"
 
-# Launch the Filen application if not running as root
 run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
 exit 0
