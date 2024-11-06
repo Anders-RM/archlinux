@@ -100,7 +100,12 @@ run_command "ln -sf \"$Home_Dir/filen\" \"$Home_Dir/Desktop/Filen\"" "Creating d
 log "Filen AppImage updated and installed successfully"
 
 run_command "rm -rf $APPIMAGE_LOCATION" "Removing temporary directory"
-# Launch the Filen application
-run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
+
+# Launch the Filen application if not running as root
+if [ "$(id -u)" -ne 0 ]; then
+    run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
+else
+    log "Skipping application launch as the script is running as root"
+fi
 
 exit 0
