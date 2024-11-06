@@ -2,7 +2,7 @@
 
 # Define the script directory and log file
 SCRIPT_DIR="/usr/local/bin/update"  # Get the directory of the script
-LOG_FILE="$SCRIPT_DIR/template.log"         # Define the log file path
+LOG_FILE="$SCRIPT_DIR/update_script.log"         # Define the log file path
 
 # Ensure the log file exists
 mkdir -p "$(dirname "$LOG_FILE")"  # Create the directory for the log file if it doesn't exist
