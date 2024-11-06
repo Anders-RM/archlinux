@@ -101,6 +101,8 @@ log "Changing permissions of scripts"
 for script in "${scripts[@]}"; do
     execute_and_log "$script"
 done
+
+sudo snap refresh | tee -a "$LOG_FILE"
 #read -p "Press enter to reboot"
 # Final updates and reboot
 log "Rebooting system"
