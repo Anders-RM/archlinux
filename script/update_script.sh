@@ -43,6 +43,4 @@ log "Starting Snap update..."
 run_command "sudo snap refresh" "Snap update"
 log "Snap update completed."
 
-log "Creating temporary directory for AppImage"
-
 exit 0
