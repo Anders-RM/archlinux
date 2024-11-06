@@ -61,7 +61,7 @@ execute_and_log() {
     
     # Execute the script in a subshell and capture its exit code
     (
-        ./"$script"
+        ./script/"$script"
     ) | tee -a "$LOG_FILE"
     local exit_code=${PIPESTATUS[0]}
     
@@ -79,7 +79,7 @@ scripts=(
     "app_install.sh"
     "kdm_sddm_Config.sh"
     "update_service.sh"
-    #"appimage.sh"
+    "appimage.sh"
     "bauh.sh"
     "reflector.sh"
 )
