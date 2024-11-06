@@ -79,7 +79,7 @@ scripts=(
     "app_install.sh"
     "kdm_sddm_Config.sh"
     "update_service.sh"
-    "appimage.sh"
+    #"appimage.sh"
     "bauh.sh"
     "reflector.sh"
 )
