@@ -25,10 +25,8 @@ UPDATE_FOLDER="/usr/local/bin/update"
 run_command "sudo mkdir -p \"$UPDATE_FOLDER\"" "Creating update directory"
 
 run_command "sudo cp \"$SCRIPT_DIR\"/update_script.sh \"$UPDATE_FOLDER\"/update_script.sh" "Moving update script to /usr/local/bin"
-run_command "sudo cp \"$SCRIPT_DIR\"/appimage.sh \"$UPDATE_FOLDER\"/appimage.sh" "Moving appimage script to /usr/local/bin"
 
 run_command "sudo chmod +x \"$UPDATE_FOLDER\"/update_script.sh" "Making update script executable"
-run_command "sudo chmod +x \"$UPDATE_FOLDER\"/appimage.sh" "Making appimage script executable"
 
 # Create systemd service for the update script
 sudo tee "/etc/systemd/system/update-script.service" > /dev/null <<EOLS
