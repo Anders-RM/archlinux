@@ -89,8 +89,10 @@ for SId in "${snapId[@]}"; do
 done
 
 # Set up autostart if not already configured
+log "Setting up autostart for Filen"
 mkdir -p $HOME/.config/autostart
-run_command "cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
+log "Copying .desktop file to autostart"
+cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop 
 
 # Ensure user directory exists and create shortcut
 run_command "mkdir -p \"$HOME/filen\"" "Creating filen directory"
