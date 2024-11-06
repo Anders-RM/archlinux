@@ -89,12 +89,12 @@ for SId in "${snapId[@]}"; do
 done
 
 # Set up autostart if not already configured
-run_command "mkdir -p \"$Home/.config/autostart\"" "Creating autostart directory"
-run_command "cp /usr/share/applications/filen-desktop.desktop $Home/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
+run_command "mkdir -p \"$HOME/.config/autostart\"" "Creating autostart directory"
+run_command "cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-desktop.desktop" "Copying .desktop file to autostart"
 
 # Ensure user directory exists and create shortcut
-run_command "mkdir -p \"$Home/filen\"" "Creating filen directory"
-run_command "ln -sf \"$Home/filen\" \"$Home/Desktop/Filen\"" "Creating desktop shortcut"
+run_command "mkdir -p \"$HOME/filen\"" "Creating filen directory"
+run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating desktop shortcut"
 
 run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
