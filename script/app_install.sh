@@ -96,7 +96,7 @@ cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-d
 
 # Ensure user directory exists and create shortcut
 run_command "mkdir -p \"$HOME/filen\"" "Creating filen directory"
-run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating desktop shortcut"
+run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating filen desktop shortcut"
 
 run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
 
