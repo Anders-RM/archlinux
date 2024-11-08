@@ -12,16 +12,6 @@ show_help() {
     # Add more options here as needed
 }
 
-# Check for help argument
-for arg in "$@"; do
-    case $arg in
-        -h|--help)
-            show_help
-            exit 0
-            ;;
-    esac
-done
-
 # Default value for arguments
 EXECUTE_VM=true
 EXECUTE_GAMING=true
