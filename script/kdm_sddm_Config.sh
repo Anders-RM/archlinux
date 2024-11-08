@@ -74,6 +74,7 @@ NUM_LOCK="$HOME/.config/kcminputrc"
 UNPIN_CONFIG_FILE="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 KRUNDER_CONFIG_FILE="$HOME/.config/krunnerrc"
 DOLPON_CONFIG_FILE="$HOME/.config/dolphinrc"
+SHORTCUT_CONFIG_FILE="$HOME/.config/kglobalshortcutsrc"
 
 # Set system locale
 log "Setting locale to English Denmark"
@@ -142,5 +143,20 @@ Type=Link
 URL=trash:/
 OnlyShowIn=KDE;
 EOLT
+
+
+#flameshot configuration
+run_command "mkdir -p $HOME/.config/flameshot" "Creating flameshot configuration directory"
+run_command "sudo tee $HOME/.config/flameshot/flameshot.ini > /dev/null <<EOLf
+[General]
+buttons=@Variant(\0\0\0\x7f\0\0\0\vQList<int>\0\0\0\0\a\0\0\0\x3\0\0\0\x4\0\0\0\x5\0\0\0\x12\0\0\0\xf\0\0\0\x11)
+contrastOpacity=188
+saveAfterCopy=false
+saveAsFileExtension=png
+savePathFixed=true
+startupLaunch=true
+EOLf" "Setting up flameshot configuration"
+
+#add shortcut for flameshot 
 
 exit 0

@@ -24,7 +24,7 @@ run_command() {
 }
 
 # Define package lists
-pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "fastfetch" "jq")  # Packages for pacman
+pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "fastfetch" "jq" "flameshot")  # Packages for pacman
 cloneRepos=("https://aur.archlinux.org/yay.git")       # Repositories to clone (for example, yay AUR helper)
 repoDirs=("yay")                                       # Directories corresponding to each repository
 yayId=("snapd" "bauh" "1password" "visual-studio-code-bin" "brave-bin" "filen-desktop-git") # Packages for yay (AUR packages)
@@ -87,6 +87,7 @@ for SId in "${snapId[@]}"; do
         run_command "sudo snap install --stable --classic \"$SId\"" "Snap package installation for $SId"
     fi
 done
+
 
 # Set up autostart if not already configured
 log "Setting up autostart for Filen"
