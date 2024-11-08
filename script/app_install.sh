@@ -98,11 +98,11 @@ cp /usr/share/applications/filen-desktop.desktop $HOME/.config/autostart/filen-d
 run_command "mkdir -p \"$HOME/filen\"" "Creating filen directory"
 run_command "ln -sf \"$HOME/filen\" \"$HOME/Desktop/Filen\"" "Creating filen desktop shortcut"
 
-run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launching Filen"
+run_command "konsole -e bash -c 'gio launch /usr/share/applications/filen-desktop.desktop; exec bash'" "Launching Filen"
+wait $!
 
 # Final setup for 1Password (user guidance for SSH agent setup)
 echo "Setup 1Password: Enable SSH agent under the developer settings."
-#run_command "konsole --noclose -e bash -c 'gio launch /usr/share/applications/1password.desktop; exec bash'" "Launching 1password"
 run_command "konsole -e bash -c 'gio launch /usr/share/applications/1password.desktop; exec bash'" "Launching 1password"
 wait $!
 
