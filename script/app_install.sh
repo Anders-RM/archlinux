@@ -103,8 +103,8 @@ run_command "gio launch /usr/share/applications/filen-desktop.desktop" "Launchin
 # Final setup for 1Password (user guidance for SSH agent setup)
 echo "Setup 1Password: Enable SSH agent under the developer settings."
 #run_command "konsole --noclose -e bash -c 'gio launch /usr/share/applications/1password.desktop; exec bash'" "Launching 1password"
-#wait $!
-run_command "gio launch /usr/share/applications/1password.desktop" "Launching Filen"
+run_command "konsole -e bash -c 'gio launch /usr/share/applications/1password.desktop; exec bash'" "Launching 1password"
+wait $!
 
 # Exit script
 exit 0
