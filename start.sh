@@ -91,8 +91,9 @@ for script in "${scripts[@]}"; do
     execute_and_log "$script"
 done
 
+log "Refreshing snap packages"
 sudo snap refresh | tee -a "$LOG_FILE"
-#read -p "Press enter to reboot"
+read -p "Press enter to reboot"
 # Final updates and reboot
 log "Rebooting system"
 sudo reboot | tee -a "$LOG_FILE"
