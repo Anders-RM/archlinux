@@ -157,6 +157,8 @@ savePathFixed=true
 startupLaunch=true
 EOLf" "Setting up flameshot configuration"
 
-#add shortcut for flameshot 
+# Add shortcut for flameshot
+log "Adding shortcut for Flameshot"
+update_complex_section "$SHORTCUT_CONFIG_FILE" "services][org.flameshot.Flameshot.desktop" "Capture=Meta+Shift+S"
 
 exit 0
