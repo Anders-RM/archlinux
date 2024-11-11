@@ -157,8 +157,12 @@ savePathFixed=true
 startupLaunch=true
 EOLf" "Setting up flameshot configuration"
 
-# Add shortcut for flameshot
-log "Adding shortcut for Flameshot"
-update_complex_section "$SHORTCUT_CONFIG_FILE" "services][org.flameshot.Flameshot.desktop" "Capture=Meta+Shift+S"
 
+log "Adding shortcut"
+update_complex_section "$SHORTCUT_CONFIG_FILE" "services][org.flameshot.Flameshot.desktop" "Capture=Meta+Shift+S"
+update_complex_section "$SHORTCUT_CONFIG_FILE" "services][systemsettings.desktop" "_launch=Meta+I\tTools"
+# Add Flameshot to autostart
+log "Adding Flameshot to autostart"
+run_command "sudo cp /usr/share/applications/org.flameshot.Flameshot.desktop $HOME/.config/autostart/" "Copying Flameshot to autostart"
+log "Flameshot added to autostart."
 exit 0
