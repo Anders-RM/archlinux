@@ -38,9 +38,4 @@ log "Starting Flatpak update..."
 run_command "flatpak update -y" "Flatpak update"
 log "Flatpak update completed."
 
-# Update Snap packages
-log "Starting Snap update..."
-run_command "sudo snap refresh" "Snap update"
-log "Snap update completed."
-
 exit 0
