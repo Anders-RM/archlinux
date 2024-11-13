@@ -157,7 +157,6 @@ savePathFixed=true
 startupLaunch=true
 EOLf" "Setting up flameshot configuration"
 
-
 log "Adding shortcut"
 update_complex_section "$SHORTCUT_CONFIG_FILE" "services][org.flameshot.Flameshot.desktop" "Capture=Meta+Shift+S"
 update_complex_section "$SHORTCUT_CONFIG_FILE" "services][systemsettings.desktop" "_launch=Meta+I\tTools"
