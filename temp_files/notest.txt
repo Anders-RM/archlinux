@@ -1,1 +1,4 @@
 chek SHORTCUT for systemsettings
+add zsh
+https://github.com/ohmyzsh/ohmyzsh/wiki
+https://github.com/ChristianLempa/dotfiles/tree/main
