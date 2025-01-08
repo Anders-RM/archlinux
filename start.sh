@@ -8,23 +8,19 @@ show_help() {
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
     echo "  -v, --novm        Skip VM-related scripts"
-    echo "  -g, --nogaming    Skip gaming-related scripts"
     # Add more options here as needed
 }
 
 # Default value for arguments
 EXECUTE_VM=true
-EXECUTE_GAMING=true
 
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -v|--novm) EXECUTE_VM=false ;;  # Disable VM-related scripts
-        -g|--nogaming) EXECUTE_GAMING=false ;;  # Disable gaming-related scripts
         -h|--help) show_help; exit 0 ;;  # Show help message and exit
         -*)
             if [[ $1 =~ v ]]; then EXECUTE_VM=false; fi
-            if [[ $1 =~ g ]]; then EXECUTE_GAMING=false; fi
             ;;
         *) echo "Unknown parameter passed: $1"; show_help; exit 1 ;;  # Handle unknown parameters
     esac
@@ -76,11 +72,6 @@ scripts=(
 # Conditionally add vm.sh to the list of scripts
 if [ "$EXECUTE_VM" = true ]; then
     scripts+=("vm.sh")
-fi
-
-# Conditionally add gaming.sh to the list of scripts
-if [ "$EXECUTE_GAMING" = true ]; then
-    scripts+=("gaming.sh")
 fi
 
 chmod +x -R script
