@@ -7,17 +7,20 @@ show_help() {
     echo ""
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
-    echo "  -v, --novm        Skip VM-related scripts"
+    echo "  -v, --novm    Skip VM-related scripts"
+    echo "  -z, --nozsh     Skip ZSH installation"
     # Add more options here as needed
 }
 
 # Default value for arguments
 EXECUTE_VM=true
+EXECUTE_ZSH=true
 
 # Parse command-line arguments
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -v|--novm) EXECUTE_VM=false ;;  # Disable VM-related scripts
+        -z|--nozsh) EXECUTE_ZSH=false ;;  # Disable ZSH installation
         -h|--help) show_help; exit 0 ;;  # Show help message and exit
         -*)
             if [[ $1 =~ v ]]; then EXECUTE_VM=false; fi
@@ -74,6 +77,9 @@ if [ "$EXECUTE_VM" = true ]; then
     scripts+=("vm.sh")
 fi
 
+if [ "$EXECUTE_ZSH" = true ]; then
+    scripts+=("zsh.sh")
+fi
 chmod +x -R script
 log "Changing permissions of scripts"
 
