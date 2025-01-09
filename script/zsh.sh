@@ -26,5 +26,5 @@ run_command() {
 run_command "sudo pacman -Sy zsh --noconfirm" "Installing zsh"
 run_command "chsh -s $(which zsh)" "Changing default shell to zsh"
 run_command "sh -c \"$(wget -O- https://install.ohmyz.sh)\"" "Installing oh-my-zsh"
-
+run_command "konsole --noclose" "open termanle"
 exit 0  # Exit the script successfully
