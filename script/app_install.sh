@@ -29,7 +29,7 @@ cloneRepos=("https://aur.archlinux.org/yay.git")       # Repositories to clone (
 repoDirs=("yay")                                       # Directories corresponding to each repository
 yayId=( "bauh" "1password" "filen-desktop-git") # "floorp" "visual-studio-code-bin" Packages for yay (AUR packages)
 flatpakId=()                                           # Packages for flatpak (empty here but ready for addition)
-snapId=()                                              # Packages for snap (empty here but ready for addition)
+#snapId=()                                              # Packages for snap (empty here but ready for addition)
 
 # Import the GPG key for 1Password for secure package installation
 log "Importing 1Password GPG key"
