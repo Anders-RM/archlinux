@@ -70,9 +70,9 @@ if [ ${#yayId[@]} -gt 0 ]; then
 fi
 
 # Enable and configure Snap package manager
-log "Enabling Snap"
-run_command "sudo systemctl enable --now snapd.socket && sudo systemctl enable --now snapd.apparmor.service" "Enabling snap services"
-run_command "sudo ln -sf /var/lib/snapd/snap /snap" "Linking snapd"
+#log "Enabling Snap"
+#run_command "sudo systemctl enable --now snapd.socket && sudo systemctl enable --now snapd.apparmor.service" "Enabling snap services"
+#run_command "sudo ln -sf /var/lib/snapd/snap /snap" "Linking snapd"
 
 # Install packages using flatpak (if any are specified)
 if [ ${#flatpakId[@]} -gt 0 ]; then
@@ -81,12 +81,12 @@ if [ ${#flatpakId[@]} -gt 0 ]; then
 fi
 
 # Install specified packages from snap (if any are specified)
-for SId in "${snapId[@]}"; do
-    if [ -n "$SId" ]; then
-        log "Installing $SId with snap"
-        run_command "sudo snap install --stable --classic \"$SId\"" "Snap package installation for $SId"
-    fi
-done
+# for SId in "${snapId[@]}"; do
+#     if [ -n "$SId" ]; then
+#         log "Installing $SId with snap"
+#         run_command "sudo snap install --stable --classic \"$SId\"" "Snap package installation for $SId"
+#     fi
+# done
 
 
 # Set up autostart if not already configured
