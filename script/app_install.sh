@@ -27,7 +27,7 @@ run_command() {
 pacmanId=("vlc" "flatpak" "python-beautifulsoup4" "python-lxml" "fuse2" "axel" "aria2" "kio-admin" "fastfetch" "jq" "flameshot")  # Packages for pacman
 cloneRepos=("https://aur.archlinux.org/yay.git")       # Repositories to clone (for example, yay AUR helper)
 repoDirs=("yay")                                       # Directories corresponding to each repository
-yayId=( "bauh" "1password" "filen-desktop-git" "floorp" "visual-studio-code-bin") # Packages for yay (AUR packages)
+yayId=( "bauh" "1password" "filen-desktop-git" "visual-studio-code-bin") # "floorp"  Packages for yay (AUR packages)
 flatpakId=()                                           # Packages for flatpak (empty here but ready for addition)
 #snapId=()                                              # Packages for snap (empty here but ready for addition)
 
