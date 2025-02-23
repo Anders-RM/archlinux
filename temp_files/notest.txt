@@ -1,2 +1,3 @@
-add zsh
-https://github.com/ohmyzsh/ohmyzsh/wiki
+https://github.com/ghostty-org/ghostty
+    add zsh
+    https://github.com/ohmyzsh/ohmyzsh/wiki
